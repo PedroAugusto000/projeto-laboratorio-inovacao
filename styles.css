@@ -51,7 +51,12 @@ header .user-area {
     position: fixed;
     height: 100%;
     top: 0;
-    left: 0;
+    left: -220px; /* Esconde o menu inicialmente */
+    transition: left 0.3s ease; /* Adiciona uma animação suave */
+}
+
+.menu.open {
+    left: 0; /* Mostra o menu quando tiver a classe 'open' */
 }
 
 .menu ul {
@@ -69,18 +74,20 @@ header .user-area {
 }
 
 .menu .submenu {
-    display: none;
+    display: none; 
     margin-left: 15px;
 }
+
 
 .menu .toggle {
     cursor: pointer;
     font-weight: bold;
-}
+} 
 
 .content {
-    margin-left: 220px;
+    margin-left: 20px; 
     padding: 20px;
+    transition: margin-left 0.3s ease;
 }
 
 .recommendations {
@@ -112,4 +119,47 @@ header .user-area {
     border: none;
     font-size: 18px;
     cursor: pointer;
+}
+
+.hamburger {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 15px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+.menu {
+    width: 200px;
+    transition: width 0.3s ease;
+}
+
+.menu.active {
+    width: 60px; 
+}
+
+.menu.active .submenu {
+    display: none; 
+}
+
+.content {
+    transition: margin-left 0.3s ease;
+}
+
+.menu.active + .content {
+    margin-left: 80px; 
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.content.menu-open {
+    margin-left: 220px; /* Ajusta a margem quando o menu tá aberto */
 }

@@ -17,7 +17,7 @@
         <div class="user-area">
             <span class="user-icon">&#x1F464;</span>
             <span>Usuário</span>
-            <a href="#" class="logout" title="Sair">&#x27A1;</a>
+            <a href="../index.php" class="logout" title="Sair">&#x27A1;</a>
         </div>
     </header>
     <main>

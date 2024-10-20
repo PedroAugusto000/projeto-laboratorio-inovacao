@@ -9,6 +9,7 @@
 <body>
     <header>
         <div class="logo">Logo</div>
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
         <nav>
             <a href="#">Receitas</a>
             <a href="#">Livros</a>
@@ -21,7 +22,8 @@
             <a href="./projetoads.view/login.php">Login</a>
         </div>
     </header>
-    <div class="menu">
+
+    <div class="menu" id="side-menu">
         <ul>
             <li><a href="index.php">Página Inicial</a></li>
             <li class="toggle" onclick="toggleSubmenu('submenu-tipos')">Tipos de pratos</li>
@@ -33,15 +35,15 @@
                     }
                 ?>
             </ul>
+            <br> <a href="index.php">Voltar</a>
         </ul>
     </div>
+
     <div class="content">
         <div class="arrows">
-
             <button>&larr;</button>
             <h1>Recomendações</h1>
             <button>&rarr;</button>
-
         </div>
         <div class="section-title">Recomendação de livros</div>
         <div class="recommendations">

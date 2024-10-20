@@ -27,6 +27,8 @@
 
         <button type="submit" id="button-login">Logar</button>
 
+        <br> <a href="../index.php">Voltar</a>
+
 </div>
 
     </form>
