@@ -1,3 +1,19 @@
+<?php
+session_start();
+require '../projetoads.model/db-conexao.php'; 
+
+if (!isset($_SESSION['usuario'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$nomeUsuario = $_SESSION['usuario'];
+
+// Consulta para buscar todos os colaboradores
+$sql = "SELECT id, nome, funcao, rg, data_ingresso FROM Colaboradores";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,7 +32,7 @@
         </nav>
         <div class="user-area">
             <span class="user-icon">&#x1F464;</span>
-            <span>Usuário</span>
+            <span><?php echo htmlspecialchars($nomeUsuario); ?></span>
             <a href="../index.php" class="logout" title="Sair">&#x27A1;</a>
         </div>
     </header>
@@ -37,22 +53,33 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>12345</td>
-                    <td>Cozinheiro</td>
-                    <td>Pedro Augusto Moura de Oliveira</td>
-                    <td>1.234.567</td>
-                    <td>17/04/2024</td>
-                    <td>
-                        <a href="#" title="Editar">&#x270E;</a>
-                        <a href="#" title="Excluir">&#x1F5D1;</a>
-                    </td>
-                </tr>
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['funcao']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                            <td><?php echo htmlspecialchars($row['rg']); ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($row['data_ingresso'])); ?></td>
+                            <td>
+                                <a href="editar_colaborador.php?id=<?php echo $row['id']; ?>" title="Editar">&#x270E;</a>
+                                <a href="excluir_colaborador.php?id=<?php echo $row['id']; ?>" title="Excluir">&#x1F5D1;</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6">Nenhum colaborador cadastrado.</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
 
         <a href="registro_colaborador.php">Registrar colaborador</a>
-        <!--<button class="register-btn">Registrar colaborador</button>-->
     </main>
 </body>
 </html>
+
+<?php
+$conn->close(); // Fecha a conexão com o banco de dados
+?>

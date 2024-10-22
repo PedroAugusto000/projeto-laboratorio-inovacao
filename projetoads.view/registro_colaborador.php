@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$nomeUsuario = $_SESSION['usuario'];
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,7 +17,6 @@
     <link rel="stylesheet" href="../css/stylesRegistro_colaborador.css">
 </head>
 <body>
-
     <header>
         <div class="logo">Logo</div>
         <nav>
@@ -17,15 +26,15 @@
         </nav>
         <div class="user-area">
             <span class="user-icon">&#x1F464;</span>
-            <span>Usuário</span>
-            <a href="#" class="logout" title="Sair">&#x27A1;</a>
+            <span><?php echo htmlspecialchars($nomeUsuario); ?></span>
+            <a href="../index.php" class="logout" title="Sair">&#x27A1;</a>
         </div>
     </header>
 
-        <h2>Registro colaborador</h2>
+    <h2>Registro colaborador</h2>
 
-        <div class="form-todo">
-        <form action="#" method="post" class="form-registro">
+    <div class="form-todo">
+        <form action="../projetoads.controller/RegistroColaboradorController.php" method="post" class="form-registro">
             <div>
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" placeholder="Informe o nome..." required>
@@ -56,8 +65,10 @@
                 <textarea id="referencias" name="referencias" placeholder="Trabalhou no restaurante Oro no RJ..."></textarea>
             </div>
             <button type="submit" class="register-btn">Registrar</button>
+
+            <a href="../projetoads.view/colaborador_funcionarios.php">Voltar</a>
         </form>
-        </div>
+    </div>
 
     <script src="../scripts/scriptsRegistro_colaborador.js"></script>
 </body>
