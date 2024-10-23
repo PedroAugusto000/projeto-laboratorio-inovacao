@@ -63,7 +63,7 @@ $result = $conn->query($sql);
                             <td><?php echo date('d/m/Y', strtotime($row['data_ingresso'])); ?></td>
                             <td>
                                 <a href="editar_colaborador.php?id=<?php echo $row['id']; ?>" title="Editar">&#x270E;</a>
-                                <a href="excluir_colaborador.php?id=<?php echo $row['id']; ?>" title="Excluir">&#x1F5D1;</a>
+                                <a href="../projetoads.controller/ExcluirColaboradorController.php?id=<?php echo $row['id']; ?>" title="Excluir">&#x1F5D1;</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
