@@ -5,7 +5,7 @@ require '../projetoads.model/db-conexao.php';
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $sql = "DELETE FROM Colaboradores WHERE id = ?";
+    $sql = "DELETE FROM Colaboradores WHERE id = ?"; //? Placeholder. Valor específico que vai ser inserido quando a consulta for executada
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $id);
 

@@ -1,4 +1,5 @@
 <?php
+//stmt - statement: Representa um objeto que contém uma instrução SQL preparada para ser executada.
 session_start();
 require '../projetoads.model/db-conexao.php';
 
