@@ -1,10 +1,14 @@
 <?php
+//Verificando a sessão...
 session_start();
 if (!isset($_SESSION['usuario'])) {
+    // Se a sessão 'usuario' não estiver definida, redireciona para a página de login
     header('Location: login.php');
-    exit;
+    exit; // Encerra o script para garantir que o usuário seja redirecionado
 }
 
+//Else...
+// Armazena o nome do usuário logado em uma variável
 $nomeUsuario = $_SESSION['usuario'];
 ?>
 
@@ -26,7 +30,7 @@ $nomeUsuario = $_SESSION['usuario'];
         </nav>
         <div class="user-area">
             <span class="user-icon">&#x1F464;</span>
-            <span><?php echo htmlspecialchars($nomeUsuario); ?></span>
+            <span><?php echo ($nomeUsuario); ?></span>
             <a href="../index.php" class="logout" title="Sair">&#x27A1;</a>
         </div>
     </header>

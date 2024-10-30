@@ -1,0 +1,25 @@
+.detalhe-receita {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.detalhe-receita h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.detalhe-receita img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.ingredientes, .preparo {
+    margin-bottom: 20px;
+}
+
+.ingredientes h2, .preparo h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}

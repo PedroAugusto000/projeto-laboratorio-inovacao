@@ -1,3 +1,7 @@
+CREATE DATABASE AcervoReceitas;
+
+use acervoreceitas;
+
 CREATE TABLE Login (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL,
@@ -15,6 +19,51 @@ CREATE TABLE Colaboradores (
     referencias TEXT
 );
 
+CREATE TABLE receitas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    codigo_unico VARCHAR(200),
+    categoria VARCHAR(100),
+    opiniao_degustador TEXT,
+    ingredientes TEXT,
+    modo_preparo TEXT,
+    descricao TEXT,
+    numero_porcoes INT,
+    nome_cozinheiro VARCHAR(255),
+    nome_degustador VARCHAR(255),
+    imagem_receita BLOB
+);
+
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_categoria VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Livros (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    codigo_unico VARCHAR(200),
+    isbn INT UNIQUE NOT NULL,
+    titulo VARCHAR(200),
+    imagem BLOB
+);
+
+INSERT INTO categorias (nome_categoria) VALUES
+('Massa'),
+('Frios'),
+('Almoço'),
+('Lanches');
+
+CREATE TABLE livros_receitas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    livro_id INT NOT NULL,
+    receita_id INT NOT NULL,
+    FOREIGN KEY (livro_id) REFERENCES livros(id) ON DELETE CASCADE,
+    FOREIGN KEY (receita_id) REFERENCES receitas(id) ON DELETE CASCADE
+);
+
 INSERT INTO Login (usuario, senha) VALUES ('root', MD5('senac'));
 
 INSERT INTO Login (usuario, senha) VALUES ('Pedro Augusto', MD5('12345'));
+
+ALTER TABLE receitas DROP COLUMN codigo_unico;
+

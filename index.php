@@ -1,9 +1,27 @@
+<?php
+// Conexão com o banco de dados
+$conn = new mysqli("localhost", "root", "", "AcervoReceitas");
+
+// Checa conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
+
+// Consulta para pegar as receitas, limitando as mais recentes
+$sql_receitas = "SELECT id, nome, imagem_receita FROM receitas ORDER BY id DESC LIMIT 6";
+$result_receitas = $conn->query($sql_receitas);
+
+// Consulta para pegar os livros, limitando os mais recentes
+$sql_livros = "SELECT id, titulo, imagem FROM livros ORDER BY id DESC LIMIT 6";
+$result_livros = $conn->query($sql_livros);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial - Receitas</title>
+    <title>Página Inicial - Receitas e Livros</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -45,23 +63,39 @@
             <h1>Recomendações</h1>
             <button>&rarr;</button>
         </div>
-        <div class="section-title">Recomendação de livros</div>
-        <div class="recommendations">
-            <div class="item">Livro 1</div>
-            <div class="item">Livro 2</div>
-            <div class="item">Livro 3</div>
-            <div class="item">Livro 4</div>
-            <div class="item">Livro 5</div>
-            <div class="item">Livro 6</div>
-        </div>
+        
+        <!-- Seção de Recomendação de Receitas -->
         <div class="section-title">Recomendação de receitas</div>
         <div class="recommendations">
-            <div class="item">Receita 1</div>
-            <div class="item">Receita 2</div>
-            <div class="item">Receita 3</div>
-            <div class="item">Receita 4</div>
-            <div class="item">Receita 5</div>
-            <div class="item">Receita 6</div>
+            <?php while ($row = $result_receitas->fetch_assoc()): ?>
+                <div class="item">
+                    <div class="receita-item">
+                        <h3><?php echo htmlspecialchars($row['nome']); ?></h3>
+                        <?php if ($row['imagem_receita']): ?>
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($row['imagem_receita']); ?>" alt="<?php echo htmlspecialchars($row['nome']); ?>" width="100%" height="150px">
+                        <?php else: ?>
+                            <div class="no-image">Sem imagem</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        </div>
+        
+        <!-- Seção de Recomendação de Livros -->
+        <div class="section-title">Recomendação de livros</div>
+        <div class="recommendations">
+            <?php while ($livro = $result_livros->fetch_assoc()): ?>
+                <div class="item">
+                    <div class="livro-item">
+                        <h3><?php echo htmlspecialchars($livro['titulo']); ?></h3>
+                        <?php if ($livro['imagem']): ?>
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($livro['imagem']); ?>" alt="<?php echo htmlspecialchars($livro['titulo']); ?>" width="100%" height="150px">
+                        <?php else: ?>
+                            <div class="no-image">Sem imagem</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endwhile; ?>
         </div>
     </div>
 

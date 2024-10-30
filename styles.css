@@ -51,12 +51,12 @@ header .user-area {
     position: fixed;
     height: 100%;
     top: 0;
-    left: -220px; /* Esconde o menu inicialmente */
-    transition: left 0.3s ease; /* Adiciona uma animação suave */
+    left: -220px; 
+    transition: left 0.3s ease; 
 }
 
 .menu.open {
-    left: 0; /* Mostra o menu quando tiver a classe 'open' */
+    left: 0; 
 }
 
 .menu ul {
@@ -163,3 +163,4 @@ header .user-area {
 .content.menu-open {
     margin-left: 220px; /* Ajusta a margem quando o menu tá aberto */
 }
+

@@ -1,8 +1,14 @@
 <?php
+// Inicia uma nova sessão ou retoma a existente
 session_start();
-$erro = '';
+
+$erro = ''; //Só pra armazer mensagem de erro, caso tenha
+
+//Vai ver se tem mensagem de erro na variável
 if (isset($_SESSION['erro'])) {
+    // Se houver, armazena essa mensagem na variável $erro
     $erro = $_SESSION['erro'];
+    // Remove a mensagem de erro da sessão, para que ela não seja exibida novamente no próximo acesso
     unset($_SESSION['erro']); // Remove a mensagem de erro após exibi-la
 }
 ?>
@@ -32,8 +38,9 @@ if (isset($_SESSION['erro'])) {
 
             <button type="submit" id="button-login">Logar</button>
 
+            <!-- Exibe uma mensagem de erro se a variável $erro não estiver vazia -->
             <?php if (!empty($erro)): ?>
-                <p style="color: red;"><?php echo htmlspecialchars($erro); ?></p>
+                <p style="color: red;"><?php echo($erro); ?></p> <!-- Mostra a mensagem de erro em vermelho -->
             <?php endif; ?>
 
             <br> <a href="../index.php">Voltar</a>
