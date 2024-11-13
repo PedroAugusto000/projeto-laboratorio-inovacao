@@ -24,15 +24,30 @@ $result = $conn->query("
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Receitas</title>
     <link rel="stylesheet" href="../css/stylesReceitas.css">
+    <script>
+        function filtrarReceitas() {
+            let input = document.getElementById('buscar-receita').value.toLowerCase();
+            let receitas = document.querySelectorAll('#receitas-lista tr');
+
+            receitas.forEach((receita) => {
+                let nomeReceita = receita.querySelector('td:nth-child(2)').innerText.toLowerCase();
+                receita.style.display = nomeReceita.includes(input) ? '' : 'none';
+            });
+        }
+    </script>
 </head>
 <body>
 
 <header>
-    <nav>
+
+<div class="logo-container">
         <a href="#">Logo</a>
-        <a href="#">Livros</a>
+    </div>
+
+    <nav>
+        <a href="gerir_livros.php">Livros</a>
         <a href="gerenciar_receitas.php">Receitas</a>
-        <a href="#">Funcionários</a>
+        <a href="colaborador_funcionarios.php">Funcionários</a>
     </nav>
     <div class="user-area">
         <span>Usuário</span>
@@ -42,9 +57,15 @@ $result = $conn->query("
 
 <main>
     <h1>Gerenciar Receitas</h1>
+
+    <!-- Barra de busca com função de filtro -->
     <div class="search-bar">
-        <input type="text" placeholder="Buscar receita...">
+        <input type="text" id="buscar-receita" placeholder="Buscar receita..." onkeyup="filtrarReceitas()">
     </div>
+
+    <!-- Botão de registrar receita, agora abaixo da barra de busca -->
+    <a href="registro_receita.php" class="register-btn" style="display: block; margin-top: 10px;">Registrar receita</a>
+
     <table>
         <thead>
             <tr>
@@ -54,7 +75,7 @@ $result = $conn->query("
                 <th>Ações</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="receitas-lista">
             <?php while($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $row["id"]; ?></td>
@@ -68,7 +89,7 @@ $result = $conn->query("
             <?php endwhile; ?>
         </tbody>
     </table>
-    <a href="registro_receita.php" class="register-btn">Registrar receita</a>
+
 </main>
 
 </body>

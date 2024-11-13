@@ -78,6 +78,32 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Receita</title>
     <link rel="stylesheet" href="../css/stylesRegistroReceitas.css">
+    <script>
+        function autocomplete(input, url) {
+            input.addEventListener("input", function() {
+                fetch(url + '?query=' + input.value)
+                    .then(response => response.json())
+                    .then(data => {
+                        const list = document.getElementById(input.id + "-list");
+                        list.innerHTML = "";
+                        data.forEach(item => {
+                            const option = document.createElement("div");
+                            option.textContent = item.nome;
+                            option.addEventListener("click", () => {
+                                input.value = item.nome;
+                                list.innerHTML = "";
+                            });
+                            list.appendChild(option);
+                        });
+                    });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            autocomplete(document.getElementById("nome_cozinheiro"), "buscar_colaboradores.php");
+            autocomplete(document.getElementById("nome_degustador"), "buscar_colaboradores.php");
+        });
+    </script>
 </head>
 <body>
 
@@ -95,15 +121,12 @@ $conn->close();
 </header>
 
 <main>
-    <h1>Editar Receita</h1>
     <div class="container">
+        <h1>Editar Receita</h1>
         <div class="form-section">
             <form action="editar_receitas.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($receita['nome']); ?>" required>
-
-                <label for="codigo_unico">Código Único</label>
-                <input type="text" id="codigo_unico" name="codigo_unico" value="<?php echo htmlspecialchars($receita['codigo_unico']); ?>" readonly>
 
                 <!-- Campo de Categoria como lista suspensa -->
                 <label for="categoria">Categoria</label>
@@ -133,9 +156,11 @@ $conn->close();
 
                 <label for="nome_cozinheiro">Cozinheiro</label>
                 <input type="text" id="nome_cozinheiro" name="nome_cozinheiro" value="<?php echo htmlspecialchars($receita['nome_cozinheiro']); ?>">
+                <div id="nome_cozinheiro-list" class="autocomplete-list"></div>
 
                 <label for="nome_degustador">Degustador</label>
                 <input type="text" id="nome_degustador" name="nome_degustador" value="<?php echo htmlspecialchars($receita['nome_degustador']); ?>">
+                <div id="nome_degustador-list" class="autocomplete-list"></div>
 
                 <!-- Campo para upload da imagem -->
                 <label for="imagem_receita">Anexar imagem da receita</label>
@@ -146,7 +171,7 @@ $conn->close();
                 <?php endif; ?>
 
                 <button type="submit" class="register-btn">Atualizar receita</button>
-                <br> <a href="gerenciar_receitas.php">Voltar</a>
+                <br><a href="gerenciar_receitas.php">Voltar</a>
             </form>
         </div>
     </div>

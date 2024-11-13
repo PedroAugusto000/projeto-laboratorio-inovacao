@@ -1,5 +1,4 @@
-
-/* Reset de estilo */
+/* Estilo Geral */
 * {
     margin: 0;
     padding: 0;
@@ -11,6 +10,7 @@ body {
     background-color: #f5f5f5;
 }
 
+/* Estilos do Cabeçalho */
 header {
     background-color: #fff;
     padding: 10px 20px;
@@ -18,22 +18,34 @@ header {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo-container {
+    flex: 1;
 }
 
 header nav {
     display: flex;
     gap: 20px;
+    flex: 1;
+    justify-content: center;
 }
 
 header nav a {
     text-decoration: none;
     color: #333;
+    font-weight: bold;
 }
 
 .user-area {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .logout {
@@ -43,6 +55,7 @@ header nav a {
     cursor: pointer;
 }
 
+/* Estilos para o Conteúdo Principal */
 main {
     padding: 20px;
     max-width: 800px;
@@ -57,14 +70,38 @@ h1 {
     font-size: 24px;
 }
 
-.search-bar {
+.form-container {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.search-bar input {
-    padding: 5px;
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.search-bar input, .action-bar input {
+    padding: 8px;
     font-size: 14px;
     width: 200px;
 }
@@ -72,7 +109,7 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 15px;
 }
 
 table th, table td {
@@ -85,19 +122,13 @@ table th {
     background-color: #f0f0f0;
 }
 
-.edit, .delete {
-    cursor: pointer;
-    font-size: 18px;
-    text-decoration: none;
-}
-
 .register-btn {
     background-color: #333;
     color: #fff;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    text-decoration: none;
+    cursor: pointer;
     display: inline-block;
     text-align: center;
 }

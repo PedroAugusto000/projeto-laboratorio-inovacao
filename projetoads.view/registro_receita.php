@@ -38,8 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->send_long_data(9, $imagem_receita);
 
     if ($stmt->execute()) {
-        $codigoUnico = $conn->insert_id;
-        echo "Receita cadastrada com sucesso! Código Único: $codigoUnico";
+        echo "Receita cadastrada com sucesso!";
     } else {
         echo "Erro: " . $conn->error;
     }
@@ -56,12 +55,42 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Receita</title>
     <link rel="stylesheet" href="../css/stylesRegistroReceitas.css">
+    <script>
+        function autocomplete(input, url) {
+            input.addEventListener("input", function() {
+                fetch(url + '?query=' + input.value)
+                    .then(response => response.json())
+                    .then(data => {
+                        const list = document.getElementById(input.id + "-list");
+                        list.innerHTML = "";
+                        data.forEach(item => {
+                            const option = document.createElement("div");
+                            option.textContent = item.nome;
+                            option.addEventListener("click", () => {
+                                input.value = item.nome;
+                                list.innerHTML = "";
+                            });
+                            list.appendChild(option);
+                        });
+                    });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            autocomplete(document.getElementById("nome_cozinheiro"), "buscar_colaboradores.php");
+            autocomplete(document.getElementById("nome_degustador"), "buscar_colaboradores.php");
+        });
+    </script>
 </head>
 <body>
 
 <header>
-    <nav>
+    
+    <div class="logo-container">
         <a href="#">Logo</a>
+    </div>
+    
+    <nav>
         <a href="#">Livros</a>
         <a href="gerenciar_receitas.php">Receitas</a>
         <a href="#">Funcionários</a>
@@ -73,16 +102,12 @@ $conn->close();
 </header>
 
 <main>
-    <h1>Registro Receita</h1>
     <div class="container">
+        <h1>Registro de Receita</h1>
         <div class="form-section">
             <form action="registro_receita.php" method="POST" enctype="multipart/form-data">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" placeholder="Informe o nome da receita" required>
-
-                <!-- Código Único (não editável) -->
-                <label for="codigo_unico">Código Único</label>
-                <input type="text" id="codigo_unico" name="codigo_unico" value="<?php echo isset($codigoUnico) ? $codigoUnico : ''; ?>" readonly>
 
                 <!-- Campo de Categoria como uma lista suspensa -->
                 <label for="categoria">Categoria</label>
@@ -110,16 +135,22 @@ $conn->close();
 
                 <label for="nome_cozinheiro">Cozinheiro</label>
                 <input type="text" id="nome_cozinheiro" name="nome_cozinheiro" placeholder="Nome do cozinheiro">
+                <div id="nome_cozinheiro-list" class="autocomplete-list"></div>
 
                 <label for="nome_degustador">Degustador</label>
                 <input type="text" id="nome_degustador" name="nome_degustador" placeholder="Nome do degustador">
+                <div id="nome_degustador-list" class="autocomplete-list"></div>
 
                 <!-- Campo para upload da imagem -->
                 <label for="imagem_receita">Anexar imagem da receita</label>
                 <input type="file" id="imagem_receita" name="imagem_receita" accept="image/*">
 
-                <button type="submit" class="register-btn">Cadastrar receita</button>
-                <br><a href="gerenciar_receitas.php">Voltar</a>
+                <div class="register-btn-container">
+                    <button type="submit" class="register-btn">Cadastrar receita</button>
+                </div>
+                <a href="gerenciar_receitas.php">Voltar</a>
+
+                
             </form>
         </div>
     </div>

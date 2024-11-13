@@ -22,7 +22,7 @@ CREATE TABLE Colaboradores (
 CREATE TABLE receitas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    codigo_unico VARCHAR(200),
+    codigo_unico VARCHAR(20),
     categoria VARCHAR(100),
     opiniao_degustador TEXT,
     ingredientes TEXT,
@@ -63,7 +63,16 @@ CREATE TABLE livros_receitas (
 
 INSERT INTO Login (usuario, senha) VALUES ('root', MD5('senac'));
 
-INSERT INTO Login (usuario, senha) VALUES ('Pedro Augusto', MD5('12345'));
+INSERT INTO Login (usuario, senha) VALUES ('Pedro', MD5('123'));
 
 ALTER TABLE receitas DROP COLUMN codigo_unico;
+ALTER TABLE receitas DROP INDEX codigo_unico;
+ALTER TABLE receitas ADD COLUMN codigo_unico VARCHAR(255);
+ALTER TABLE livros MODIFY isbn VARCHAR(13);
+INSERT INTO categorias (nome_categoria) VALUES ('Sobremesas'), ('Bebidas'), ('Saladas');
+ALTER TABLE livros ADD COLUMN descricao TEXT;
+
+
+
+
 

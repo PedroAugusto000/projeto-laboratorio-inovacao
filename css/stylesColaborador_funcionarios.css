@@ -100,7 +100,9 @@ table td a {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
 }
 
 .register-btn:hover {

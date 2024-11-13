@@ -24,9 +24,9 @@ $nomeUsuario = $_SESSION['usuario'];
     <header>
         <div class="logo">Logo</div>
         <nav>
-            <a href="#">Livros</a>
-            <a href="#">Receitas</a>
-            <a href="#">Funcionários</a>
+            <a href="gerir_livros.php">Livros</a>
+            <a href="gerenciar_receitas.php">Receitas</a>
+            <a href="colaborador_funcionarios.php">Funcionários</a>
         </nav>
         <div class="user-area">
             <span class="user-icon">&#x1F464;</span>

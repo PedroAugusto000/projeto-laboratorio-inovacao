@@ -14,12 +14,15 @@ if (isset($_GET["delete"])) {
     header("Location: gerir_livros.php");
 }
 
-// Seleciona todos os livros
-$result = $conn->query("
-    SELECT id, isbn, titulo 
-    FROM livros
-");
+// Verifica se há um termo de busca
+$searchTerm = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+$query = "SELECT id, isbn, titulo FROM livros";
 
+if (!empty($searchTerm)) {
+    $query .= " WHERE titulo LIKE '%$searchTerm%' OR isbn LIKE '%$searchTerm%'";
+}
+
+$result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -33,11 +36,13 @@ $result = $conn->query("
 <body>
 
 <header>
-    <nav>
+<div class="logo-container">
         <a href="#">Logo</a>
+    </div>
+    <nav>
         <a href="gerir_livros.php">Livros</a>
         <a href="gerenciar_receitas.php">Receitas</a>
-        <a href="#">Funcionários</a>
+        <a href="colaborador_funcionarios.php">Funcionários</a>
     </nav>
     <div class="user-area">
         <span>Usuário</span>
@@ -48,8 +53,11 @@ $result = $conn->query("
 <main>
     <h1>Gerenciar Livros</h1>
     <div class="search-bar">
-        <input type="text" placeholder="Buscar livro...">
+        <form method="get" action="gerir_livros.php">
+            <input type="text" name="search" placeholder="Buscar livro..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+        </form>
     </div>
+    <a href="registro_livro.php" class="register-btn" style="display: block; margin-top: 10px;">Registrar livro</a>
     <table>
         <thead>
             <tr>
@@ -73,7 +81,6 @@ $result = $conn->query("
             <?php endwhile; ?>
         </tbody>
     </table>
-    <a href="registro_livro.php" class="register-btn">Registrar livro</a>
 </main>
 
 </body>
