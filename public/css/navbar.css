@@ -1,0 +1,30 @@
+/* navbar.css */
+header {
+    background-color: #232f3e;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    justify-content: space-between;
+}
+
+header .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+header nav a, header .user-area a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+header nav a:hover, header .user-area a:hover {
+    color: #ff9900;
+}
+
+.user-area {
+    display: flex;
+    gap: 10px;
+}

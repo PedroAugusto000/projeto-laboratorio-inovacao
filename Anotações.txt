@@ -1,0 +1,101 @@
+ARRUMANDO CÓDIGO:
+Colaborador na view:
+1. buscar_colaboradores.php -> Busca funcionários na hora de inserir o Cozinheiro e o Degustador nas receitas
+2. colaborador_funcionarios.php -> Aba do CRUD de funcionarios
+3. colaborador_inicial.php -> Aba colaborador inicial logo após clicar em "Aba do colaborador" no index.php
+4. editar_colaborador.php -> Aba de edição de funcionários logo após o registro
+5. registro_colaborador.php -> Aba de registro de funcionário
+
+Livro na view:
+1. detalhe_livro.php -> Aba que aparece logo após clicar em um livro específico
+2. editar_livro.php -> Aba de edição de livro
+3. gerir_livros.php -> Aba do CRUD de livros
+4. registro_livro.php -> Aba de registrar os livros
+5. todos_livros.php -> Tela de todos os livros registrados do projeto
+
+Receitas na view:
+1. detalhe_receita.php -> Aba que aparece logo após clicar em uma receita específica
+2. editar_receitas.php -> Tela de editar as receitas
+3. gerenciar_receitas.php -> Aba do CRUD de receitas
+4. registro_receita.php -> Aba de registrar as receitas
+5. todas_receitas.php -> Tela de todas as receitas registrados do projeto
+
+Outros:
+navbar.php -> Barra de navegação padrão 
+login.php -> Tela de login
+
+###OBS: Verificar se o buscar_colaboradores dá pra ser inserido dentro da controller de Registro/Editar receitas
+
+========Renomeando=======
+COLABORADOR
+1. gerenciar_colaborador.php
+2. colaborador_inicial.php
+3. editar_colaborador
+4. registro_colaborador.php
+
+LIVROS
+1. gerenciar_livros.php
+2. detalhe_livro.php
+3. editar_livro.php
+4. registro_livro.php
+5. todos_livros.php
+
+RECEITAS
+1. gerenciar_receitas.php
+2. detalhe_receita.php
+3. editar_receita.php
+3. gerenciar_receita.php
+4. registro_receita.php
+5. todas_receitas.php
+
+OUTROS
+navbar.php
+login.php
+
+
+
+======CONTROLLER and MODEL=====
+Colaborador -> FEITA
+Livros ->
+Receitas ->
+Index.php ->
+
+
+===O QUE FALTA?===
+-Organizar MVC de todos os códigos
+-Mostar mensagem de erro quando login/senha forem inválidos
+-Inserir a logo nas páginas + a href pro index
+-Funcionalidade pra realmente o usuário deslogar
+-Aperfeiçoar todas as pesquisa para ler as outras colunas (Nome, id, RG, Data de Ingresso)
+-Inserir um filtro p/ fazer sentido
+-Registro colaborador -> Inserir uma lista de funções invés de escrever
+-RG: Arrumar p/ que enquanto o usuário digitar já inserir no formato do RG (x.xxx.xxx) 
+-Salário: Arrumar p/ que enquanto o usuário digitar já inserir no formato do salário em dinheiro
+-Fazer o mesmo do registro colaborador no editar colaborador 
+-Quando exclui, aparece um prompt pergutando se realmente deseja excluir. Arrumar o texto dele e colocar essa funcionalidade em todos.
+-Registrar ainda mais categorias de receitas
+-Registrar para que possa inserir mais de uma categoria na hora de registrar uma receita
+-Funcionalidade para expandir a tela na hora que você escrever um texto muito grande na hora de registrar uma receita ou Livro
+-Aperfeiçoar a pesquisa da aba de gerir_livros.php
+-Na área de registrar livros poderia ter um filtro
+-Mudar alguns redirecionamentos na hora de registrar/editar/excluir receitas/livros
+-Fazer a funcionalide de mover as recomendações do site no index.php
+-Achar um formato legal de como as receitas/livros vão aparecer no index.php
+-No index.php gostaria que tivesse uma aba abaixo mostrando que seria "Categorias" e mostraria as receitas de cada categoria (Com limite é claro)
+-Livros devem ter categoria (Churrasco, bolos, generalizado)
+-Inserir tempo de preparo estimado nas receitas
+-Será que deveria ter um botão de lançar livro/receita?
+-Alinhar o estilo de algumas barras de navegações
+-Arrumar alguns <a href=""></a> do projeto (Revisar todos)
+-Onde mostra o ISBN deveria mostrar naquele formato dele
+-Onde está visualziar receitas devo tentar inserir a imagem do livro em algum canto (Mas se não der tudo bem)
+-Pensar em como deve ser feito o cadastro dos usuários do sistema (Por hora está sendo manualmente no banco de dados)
+
+===REGRAS===
+1. Não pode cadastrar um livro sem ao menos registrar duas receitas
+2. Formato padrão para receitas e livros a ser divulgado
+3. Nem todo usuário deve conseguir acessar a aba do colaborador (Deve nem aparecer na verdade)
+
+
+
+
