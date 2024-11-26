@@ -11,9 +11,18 @@ class LivroModel {
 
     public function cadastrarLivro($titulo, $isbn, $descricao, $imagemBlob) {
         $stmt = $this->conn->prepare("INSERT INTO livros (titulo, isbn, descricao, imagem) VALUES (?, ?, ?, ?)");
+        if (!$stmt) {
+            die("Erro ao preparar consulta: " . $this->conn->error);
+        }
+
         $stmt->bind_param("sssb", $titulo, $isbn, $descricao, $imagemBlob);
-        $stmt->send_long_data(3, $imagemBlob);
-        $stmt->execute();
+        if ($imagemBlob) {
+            $stmt->send_long_data(3, $imagemBlob);
+        }
+        if (!$stmt->execute()) {
+            error_log("Erro ao cadastrar livro: " . $stmt->error);
+        }
+
         $livroId = $stmt->insert_id;
         $stmt->close();
         return $livroId;
@@ -21,14 +30,24 @@ class LivroModel {
 
     public function vincularReceitas($livroId, $receitasSelecionadas) {
         $stmt = $this->conn->prepare("INSERT INTO livros_receitas (livro_id, receita_id) VALUES (?, ?)");
+        if (!$stmt) {
+            die("Erro ao preparar consulta: " . $this->conn->error);
+        }
+
         foreach ($receitasSelecionadas as $receitaId) {
             $stmt->bind_param("ii", $livroId, $receitaId);
-            $stmt->execute();
+            if (!$stmt->execute()) {
+                error_log("Erro ao vincular receita $receitaId ao livro $livroId: " . $stmt->error);
+            }
         }
         $stmt->close();
     }
 
     public function listarReceitas() {
-        return $this->conn->query("SELECT id, nome FROM receitas");
+        $result = $this->conn->query("SELECT id, nome FROM receitas");
+        if (!$result) {
+            die("Erro ao buscar receitas: " . $this->conn->error);
+        }
+        return $result;
     }
 }

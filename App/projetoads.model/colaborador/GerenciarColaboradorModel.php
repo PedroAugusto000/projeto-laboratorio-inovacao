@@ -11,6 +11,17 @@ class ColaboradorModel {
 
     public function listarColaboradores() {
         $sql = "SELECT id, nome, funcao, rg, data_ingresso FROM Colaboradores";
-        return $this->conn->query($sql);
+        $result = $this->conn->query($sql);
+
+        if (!$result) {
+            die("Erro na consulta: " . $this->conn->error);
+        }
+
+        return $result;
+    }
+
+    public function getConn() {
+        return $this->conn;
     }
 }
+?>

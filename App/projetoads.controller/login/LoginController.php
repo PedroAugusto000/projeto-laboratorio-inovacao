@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../projetoads.model/db-conexao.php';
+require '../../../docs/db/db-conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
@@ -15,11 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows > 0) {
         $_SESSION['usuario'] = $usuario;
-        header('Location: ../index.php');
+        header('Location: ../../home/index.php');
         exit; 
     } else {
         $_SESSION['erro'] = "Usuário ou senha incorretos!";
-        header('Location: ../projetoads.view/login.php');
+        header('Location: ../../projetoads.view/login/LoginView.php');
         exit;
     }
 }

@@ -13,12 +13,25 @@ class LivroModel {
     public function buscarLivros($termoBusca = '') {
         $query = "SELECT id, isbn, titulo FROM livros";
         if (!empty($termoBusca)) {
-            $query .= " WHERE titulo LIKE '%" . $this->conn->real_escape_string($termoBusca) . "%' OR isbn LIKE '%" . $this->conn->real_escape_string($termoBusca) . "%'";
+            $query .= " WHERE titulo LIKE ? OR isbn LIKE ?";
+            $stmt = $this->conn->prepare($query);
+            $termoBusca = '%' . $termoBusca . '%';
+            $stmt->bind_param("ss", $termoBusca, $termoBusca);
+            $stmt->execute();
+            return $stmt->get_result();
         }
         return $this->conn->query($query);
     }
 
     public function deletarLivro($id) {
-        $this->conn->query("DELETE FROM livros WHERE id = " . (int)$id);
+        $stmt = $this->conn->prepare("DELETE FROM livros WHERE id = ?");
+        if (!$stmt) {
+            die("Erro ao preparar a consulta: " . $this->conn->error);
+        }
+        $stmt->bind_param("i", $id);
+        if (!$stmt->execute()) {
+            error_log("Erro ao deletar livro ID $id: " . $stmt->error);
+        }
+        $stmt->close();
     }
 }

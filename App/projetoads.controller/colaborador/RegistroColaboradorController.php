@@ -1,5 +1,5 @@
 <?php
-require '../projetoads.model/ColaboradorModel.php';
+require '../../projetoads.model/colaborador/RegistroColaboradorModel.php';
 
 class ColaboradorController {
     private $model;
@@ -30,11 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($controller->registrarColaborador($dados)) {
         $_SESSION['mensagem'] = "Colaborador registrado com sucesso!";
-        header('Location: ../projetoads.view/colaborador_funcionarios.php');
+        header('Location: ../../projetoads.view/colaborador/RegistroColaboradorView.php');
         exit;
     } else {
         $_SESSION['mensagem'] = "Erro ao registrar colaborador!";
-        header('Location: ../projetoads.view/registro_colaborador.php');
+        header('Location: ../../projetoads.view/colaborador/RegistroColaboradorView.php');
         exit;
     }
 }
+
+?>
+

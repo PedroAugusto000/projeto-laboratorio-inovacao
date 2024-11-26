@@ -1,5 +1,5 @@
 <?php
-require '../projetoads.model/ColaboradorModel.php';
+require '../../projetoads.model/colaborador/EditarColaboradorModel.php';
 
 class ColaboradorController {
     private $model;
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'rg' => $_POST['rg'],
         'data_ingresso' => $_POST['data_ingresso'],
         'salario' => str_replace(['R$', ',', '.'], ['', '.', ''], $_POST['salario']),
-        'referencias' => $_POST['referencias']
+        'referencias' => $_POST['referencias'] ?? null
     ];
 
     if ($controller->atualizarColaborador($dados)) {
@@ -39,10 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['mensagem'] = "Erro ao atualizar colaborador!";
     }
 
-    header('Location: ../projetoads.view/colaborador_funcionarios.php');
+    header('Location: ../../projetoads.view/colaborador/GerenciarColaboradorView.php');
     exit;
 }
 
 // Carrega os dados para edição
 $id = $_GET['id'] ?? '';
+if (!$id) {
+    die("ID do colaborador não informado!");
+}
 $colaborador = $controller->getColaborador($id);
+if (!$colaborador) {
+    die("Colaborador não encontrado!");
+}

@@ -13,8 +13,17 @@ class ReceitaModel {
         $sql = "SELECT nome, categoria, opiniao_degustador, ingredientes, modo_preparo, descricao, numero_porcoes, nome_cozinheiro, nome_degustador, imagem_receita 
                 FROM receitas WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            error_log("Erro ao preparar consulta: " . $this->conn->error);
+            return null;
+        }
+
         $stmt->bind_param("i", $id);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            error_log("Erro ao executar consulta: " . $stmt->error);
+            return null;
+        }
+
         $result = $stmt->get_result();
         $receita = $result->fetch_assoc();
         $stmt->close();

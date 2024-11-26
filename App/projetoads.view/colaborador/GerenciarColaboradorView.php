@@ -1,10 +1,13 @@
+<?php
+require_once '../../projetoads.controller/colaborador/GerenciarColaboradorController.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Colaboradores</title>
-    <link rel="stylesheet" href="../css/stylesColaborador_funcionarios.css">
+    <link rel="stylesheet" href="../../../public/css/stylesColaborador_funcionarios.css">
     <script>
         function filtrarColaboradores() {
             let input = document.getElementById('buscar-colaborador').value.toLowerCase();
@@ -21,14 +24,14 @@
     <header>
         <div class="logo">Logo</div>
         <nav>
-            <a href="gerir_livros.php">Livros</a>
-            <a href="gerenciar_receitas.php">Receitas</a>
-            <a href="colaborador_funcionarios.php">Funcionários</a>
+            <a href="../livro/GerenciarLivroView.php">Livros</a>
+            <a href="../receitas/GerenciarReceitaView.php">Receitas</a>
+            <a href="../colaborador/GerenciarColaboradorView.php">Funcionários</a>
         </nav>
         <div class="user-area">
             <span class="user-icon">&#x1F464;</span>
-            <span><?php echo htmlspecialchars($nomeUsuario); ?></span>
-            <a href="../index.php" class="logout" title="Sair">&#x27A1;</a>
+            <span><?php echo htmlspecialchars($nomeUsuario ?? 'Usuário'); ?></span>
+            <a href="../../home/index.php" class="logout" title="Sair">&#x27A1;</a>
         </div>
     </header>
     <main>
@@ -38,7 +41,7 @@
             <input type="text" id="buscar-colaborador" placeholder="Pesquisar..." onkeyup="filtrarColaboradores()">
         </div>
 
-        <a href="registro_colaborador.php" class="register-btn" style="display: block; margin-top: 10px;">Registrar colaborador</a>
+        <a href="../colaborador/RegistroColaboradorView.php" class="register-btn" style="display: block; margin-top: 10px;">Registrar colaborador</a>
 
         <table>
             <thead>
@@ -52,7 +55,7 @@
                 </tr>
             </thead>
             <tbody id="colaboradores-lista">
-                <?php if ($colaboradores->num_rows > 0): ?> 
+                <?php if ($colaboradores && $colaboradores->num_rows > 0): ?> 
                     <?php while ($row = $colaboradores->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['id']); ?></td>
@@ -61,8 +64,8 @@
                             <td><?php echo htmlspecialchars($row['rg']); ?></td>
                             <td><?php echo date('d/m/Y', strtotime($row['data_ingresso'])); ?></td>
                             <td>
-                                <a href="editar_colaborador.php?id=<?php echo $row['id']; ?>" title="Editar">&#x270E;</a>
-                                <a href="../projetoads.controller/ExcluirColaboradorController.php?id=<?php echo $row['id']; ?>" title="Excluir" onclick="return confirm('Tem certeza que quer excluir esse colaborador?')">&#x1F5D1;</a>
+                                <a href="../../projetoads.view/colaborador/EditarColaboradorView.php?id=<?php echo $row['id']; ?>" title="Editar">&#x270E;</a>
+                                <a href="../../projetoads.controller/colaborador/ExcluirColaboradorController.php?id=<?php echo $row['id']; ?>" title="Excluir" onclick="return confirm('Tem certeza que quer excluir esse colaborador?')">&#x1F5D1;</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>

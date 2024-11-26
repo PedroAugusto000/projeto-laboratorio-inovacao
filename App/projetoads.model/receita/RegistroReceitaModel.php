@@ -11,20 +11,43 @@ class ReceitaModel {
 
     public function getCategorias() {
         $sql = "SELECT id, nome_categoria FROM categorias";
-        return $this->conn->query($sql);
+        $result = $this->conn->query($sql);
+
+        if (!$result) {
+            die("Erro ao buscar categorias: " . $this->conn->error);
+        }
+
+        return $result;
     }
 
     public function cadastrarReceita($dados, $imagemBlob) {
-        $sql = "INSERT INTO receitas (nome, categoria, opiniao_degustador, ingredientes, modo_preparo, descricao, numero_porcoes, nome_cozinheiro, nome_degustador, imagem_receita) 
+        $sql = "INSERT INTO receitas 
+                (nome, categoria, opiniao_degustador, ingredientes, modo_preparo, descricao, numero_porcoes, nome_cozinheiro, nome_degustador, imagem_receita) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
         $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            die("Erro ao preparar consulta: " . $this->conn->error);
+        }
+
         $stmt->bind_param(
             "sssssssssb",
             $dados['nome'], $dados['categoria'], $dados['opiniao_degustador'], $dados['ingredientes'],
             $dados['modo_preparo'], $dados['descricao'], $dados['numero_porcoes'], $dados['nome_cozinheiro'],
             $dados['nome_degustador'], $imagemBlob
         );
-        $stmt->send_long_data(9, $imagemBlob);
-        return $stmt->execute();
+
+        if ($imagemBlob) {
+            $stmt->send_long_data(9, $imagemBlob);
+        }
+
+        $executado = $stmt->execute();
+
+        if (!$executado) {
+            error_log("Erro ao cadastrar receita: " . $stmt->error);
+        }
+
+        $stmt->close();
+        return $executado;
     }
 }

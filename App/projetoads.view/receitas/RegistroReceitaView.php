@@ -1,10 +1,15 @@
+<?php
+require_once '../../projetoads.controller/receita/RegistroReceitaController.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Receita</title>
-    <link rel="stylesheet" href="../css/stylesRegistroReceitas.css">
+    <link rel="stylesheet" href="../../../public/css/stylesRegistroReceitas.css">
+
     <script>
         function autocomplete(input, url) {
             input.addEventListener("input", function() {
@@ -31,6 +36,7 @@
             autocomplete(document.getElementById("nome_degustador"), "buscar_colaboradores.php");
         });
     </script>
+
 </head>
 <body>
 
@@ -39,13 +45,13 @@
         <a href="#">Logo</a>
     </div>
     <nav>
-        <a href="#">Livros</a>
-        <a href="gerenciar_receitas.php">Receitas</a>
-        <a href="#">Funcionários</a>
+        <a href="../livro/GerenciarLivroView.php">Livros</a>
+        <a href="../receitas/GerenciarReceitaView.php">Receitas</a>
+        <a href="../colaborador/GerenciarColaboradorView.php">Funcionários</a>
     </nav>
     <div class="user-area">
         <span>Usuário</span>
-        <a href="#" class="logout">Sair</a>
+        <a href="../../home/index.php" class="logout">Sair</a>
     </div>
 </header>
 
@@ -53,7 +59,7 @@
     <div class="container">
         <h1>Registro de Receita</h1>
         <div class="form-section">
-            <form action="registro_receita.php" method="POST" enctype="multipart/form-data">
+            <form action="../../projetoads.controller/receita/RegistroReceitaController.php" method="POST" enctype="multipart/form-data">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" placeholder="Informe o nome da receita" required>
 
@@ -94,7 +100,7 @@
                 <div class="register-btn-container">
                     <button type="submit" class="register-btn">Cadastrar receita</button>
                 </div>
-                <a href="gerenciar_receitas.php">Voltar</a>
+                <a href="GerenciarReceitaView.php">Voltar</a>
             </form>
         </div>
     </div>

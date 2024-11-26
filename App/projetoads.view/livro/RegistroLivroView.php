@@ -1,21 +1,14 @@
+<?php
+require_once '../../projetoads.controller/livro/RegistroLivroController.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Livro</title>
-    <link rel="stylesheet" href="../css/stylesLivros.css">
-    <script>
-        function filtrarReceitas() {
-            let input = document.getElementById('buscar-receita').value.toLowerCase();
-            let receitas = document.querySelectorAll('#receitas-lista tr');
-
-            receitas.forEach((receita) => {
-                let nomeReceita = receita.querySelector('td:nth-child(2)').innerText.toLowerCase();
-                receita.style.display = nomeReceita.includes(input) ? '' : 'none';
-            });
-        }
-    </script>
+    <link rel="stylesheet" href="../../../public/css/stylesLivros.css">
 </head>
 <body>
 
@@ -24,13 +17,13 @@
         <a href="#">Logo</a>
     </div>
     <nav>
-        <a href="gerir_livros.php">Livros</a>
-        <a href="gerenciar_receitas.php">Receitas</a>
-        <a href="#">Funcionários</a>
+        <a href="../livro/GerenciarLivroView.php">Livros</a>
+        <a href="../receitas/GerenciarReceitaView.php">Receitas</a>
+        <a href="../colaborador/GerenciarColaboradorView.php">Funcionários</a>
     </nav>
     <div class="user-area">
         <span>Usuário</span>
-        <a href="../index.php" class="logout">Sair</a>
+        <a href="../../home/index.php" class="logout">Sair</a>
     </div>
 </header>
 
@@ -38,7 +31,7 @@
     <h1>Registrar Novo Livro</h1>
 
     <div class="form-container">
-        <form action="registro_livro.php" method="post" enctype="multipart/form-data">
+        <form action="../../projetoads.controller/livro/RegistroLivroController.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="titulo">Título do Livro:</label>
                 <input type="text" id="titulo" name="titulo" required>
@@ -46,7 +39,7 @@
 
             <div class="form-group">
                 <label for="isbn">ISBN:</label>
-                <input type="text" id="isbn" name="isbn" pattern="\d{13}" title="ISBN deve ter 13 dígitos">
+                <input type="text" id="isbn" name="isbn" pattern="\d{13}" title="ISBN deve ter 13 dígitos" placeholder="Somente números">
             </div>
 
             <div class="form-group">
@@ -59,11 +52,7 @@
                 <input type="file" id="imagem" name="imagem" accept="image/*">
             </div>
 
-            <div class="action-bar">
-                <button type="submit" class="register-btn">Salvar Livro</button>
-                <input type="text" id="buscar-receita" placeholder="Buscar receita..." onkeyup="filtrarReceitas()">
-            </div>
-
+            <h3>Vincular Receitas</h3>
             <table>
                 <thead>
                     <tr>
@@ -71,15 +60,19 @@
                         <th>Receita</th>
                     </tr>
                 </thead>
-                <tbody id="receitas-lista">
+                <tbody>
                     <?php while ($row = $receitas->fetch_assoc()): ?>
                         <tr>
-                            <td><input type="checkbox" name="receitas[]" value="<?php echo $row['id']; ?>"></td>
+                            <td><input type="checkbox" name="receitas[]" value="<?php echo htmlspecialchars($row['id']); ?>"></td>
                             <td><?php echo htmlspecialchars($row['nome']); ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
+
+            <div class="action-bar">
+                <button type="submit" class="register-btn">Salvar Livro</button>
+            </div>
         </form>
     </div>
 </main>

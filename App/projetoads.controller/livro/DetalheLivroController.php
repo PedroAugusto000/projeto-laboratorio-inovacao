@@ -1,5 +1,5 @@
 <?php
-require_once 'LivroModel.php';
+require_once '../../projetoads.model/livro/DetalheLivroModel.php';
 
 class LivroController {
     private $model;

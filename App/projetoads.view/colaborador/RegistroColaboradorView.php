@@ -1,30 +1,34 @@
+<?php
+require '../../projetoads.controller/colaborador/RegistroColaboradorController.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Colaborador</title>
-    <link rel="stylesheet" href="../css/stylesRegistro_colaborador.css">
+    <link rel="stylesheet" href="../../../public/css/stylesRegistro_colaborador.css">
 </head>
 <body>
     <header>
         <div class="logo">Logo</div>
         <nav>
-            <a href="gerir_livros.php">Livros</a>
-            <a href="gerenciar_receitas.php">Receitas</a>
-            <a href="colaborador_funcionarios.php">Funcionários</a>
+            <a href="../livro/GerenciarLivroView.php">Livros</a>
+            <a href="../receitas/GerenciarReceitaView.php">Receitas</a>
+            <a href="../colaborador/GerenciarColaboradorView.php">Funcionários</a>
         </nav>
         <div class="user-area">
             <span class="user-icon">&#x1F464;</span>
             <span><?php echo htmlspecialchars($_SESSION['usuario'] ?? 'Usuário'); ?></span>
-            <a href="../index.php" class="logout" title="Sair">&#x27A1;</a>
+            <a href="../../home/index.php" class="logout" title="Sair">&#x27A1;</a>
         </div>
     </header>
 
     <h2>Registro Colaborador</h2>
 
     <div class="form-todo">
-        <form action="registro_colaborador.php" method="post" class="form-registro">
+        <form action="RegistroColaboradorView.php" method="post" class="form-registro">
             <div>
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" placeholder="Informe o nome..." required>
@@ -55,7 +59,7 @@
                 <textarea id="referencias" name="referencias" placeholder="Trabalhou no restaurante Oro no RJ..."></textarea>
             </div>
             <button type="submit" class="register-btn">Registrar</button>
-            <a href="../projetoads.view/colaborador_funcionarios.php">Voltar</a>
+            <a href="GerenciarColaboradorView.php">Voltar</a>
         </form>
     </div>
 </body>

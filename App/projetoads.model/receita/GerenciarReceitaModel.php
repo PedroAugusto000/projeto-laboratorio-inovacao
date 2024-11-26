@@ -13,12 +13,29 @@ class ReceitaModel {
         $sql = "SELECT receitas.id, receitas.nome, categorias.nome_categoria AS categoria 
                 FROM receitas 
                 LEFT JOIN categorias ON receitas.categoria = categorias.id";
-        return $this->conn->query($sql);
+        $result = $this->conn->query($sql);
+
+        if (!$result) {
+            die("Erro na consulta: " . $this->conn->error);
+        }
+
+        return $result;
     }
 
     public function deletarReceita($id) {
         $stmt = $this->conn->prepare("DELETE FROM receitas WHERE id = ?");
+        if (!$stmt) {
+            die("Erro ao preparar a consulta: " . $this->conn->error);
+        }
+
         $stmt->bind_param("i", $id);
-        return $stmt->execute();
+        $executado = $stmt->execute();
+
+        if (!$executado) {
+            error_log("Erro ao deletar receita: " . $stmt->error);
+        }
+
+        $stmt->close();
+        return $executado;
     }
 }

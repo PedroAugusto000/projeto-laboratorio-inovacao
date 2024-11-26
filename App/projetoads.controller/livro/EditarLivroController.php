@@ -1,5 +1,5 @@
 <?php
-require_once 'LivroModel.php';
+require_once '../../projetoads.model/livro/EditarLivroModel.php';
 
 class LivroController {
     private $model;
@@ -11,7 +11,7 @@ class LivroController {
     public function editarLivro($livroId, $titulo, $isbn, $imagemBlob, $receitasSelecionadas) {
         $this->model->atualizarLivro($livroId, $titulo, $isbn, $imagemBlob);
         $this->model->atualizarReceitasLivro($livroId, $receitasSelecionadas);
-        header("Location: gerir_livros.php");
+        header("Location: ../../projetoads.view/livro/GerenciarLivroView.php");
         exit();
     }
 
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $controller->editarLivro($livroId, $titulo, $isbn, $imagemBlob, $receitasSelecionadas);
 }
 
-// Dados pra View
+// Dados para a View
 if (isset($_GET['id'])) {
     $livroId = $_GET['id'];
     $livro = $controller->getLivro($livroId);

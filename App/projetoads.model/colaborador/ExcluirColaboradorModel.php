@@ -12,7 +12,19 @@ class ColaboradorModel {
     public function excluirColaborador($id) {
         $sql = "DELETE FROM Colaboradores WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
+        
+        if (!$stmt) {
+            die("Erro ao preparar consulta: " . $this->conn->error);
+        }
+
         $stmt->bind_param('i', $id);
-        return $stmt->execute();
+        $executado = $stmt->execute();
+
+        if (!$executado) {
+            error_log("Erro ao excluir colaborador: " . $stmt->error);
+        }
+
+        $stmt->close();
+        return $executado;
     }
 }

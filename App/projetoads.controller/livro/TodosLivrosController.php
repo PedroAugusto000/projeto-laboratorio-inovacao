@@ -1,5 +1,5 @@
 <?php
-require_once 'LivroModel.php';
+require_once '../../projetoads.model/livro/TodosLivrosModel.php';
 
 class LivroController {
     private $model;
@@ -9,7 +9,11 @@ class LivroController {
     }
 
     public function listarLivros() {
-        return $this->model->getTodosLivros();
+        $livros = $this->model->getTodosLivros();
+        if (!$livros) {
+            die("Erro ao buscar livros: " . $this->model->getConnectionError());
+        }
+        return $livros;
     }
 }
 

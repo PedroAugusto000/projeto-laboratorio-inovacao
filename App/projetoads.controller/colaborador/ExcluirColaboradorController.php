@@ -1,21 +1,22 @@
 <?php
-require '../projetoads.model/ColaboradorModel.php';
+require '../../projetoads.model/colaborador/ExcluirColaboradorModel.php';
 session_start();
 
 $controller = new ColaboradorModel("localhost", "root", "", "AcervoReceitas");
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+// Verifica se o ID foi passado
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $id = intval($_GET['id']);
 
     if ($controller->excluirColaborador($id)) {
-        $_SESSION['mensagem'] = "Colaborador excluído com sucesso!";
+        $_SESSION['mensagem'] = "Colaborador ID $id excluído com sucesso!";
     } else {
-        $_SESSION['mensagem'] = "Erro ao excluir colaborador!";
+        $_SESSION['mensagem'] = "Erro ao excluir o colaborador ID $id. Verifique se ele existe.";
     }
-
-    header('Location: ../projetoads.view/colaborador_funcionarios.php');
-    exit;
 } else {
-    header('Location: ../projetoads.view/colaborador_funcionarios.php');
-    exit;
+    $_SESSION['mensagem'] = "ID inválido ou não informado.";
 }
+
+// Redireciona de volta para a página de gerenciamento
+header('Location: ../../projetoads.view/colaborador/GerenciarColaboradorView.php');
+exit;

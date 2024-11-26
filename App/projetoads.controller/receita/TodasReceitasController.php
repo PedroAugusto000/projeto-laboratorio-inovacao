@@ -1,5 +1,5 @@
 <?php
-require_once 'ReceitaModel.php';
+require_once '../../projetoads.model/receita/TodasReceitasModel.php';
 
 class ReceitaController {
     private $model;

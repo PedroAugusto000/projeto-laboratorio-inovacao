@@ -15,11 +15,18 @@ class ColaboradorModel {
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
+
+        if (!$result) {
+            die("Erro na consulta: " . $this->conn->error);
+        }
+
         return $result->fetch_assoc();
     }
 
     public function atualizarColaborador($dados) {
-        $sql = "UPDATE Colaboradores SET nome = ?, nome_fantasia = ?, funcao = ?, rg = ?, data_ingresso = ?, salario = ?, referencias = ? WHERE id = ?";
+        $sql = "UPDATE Colaboradores 
+                SET nome = ?, nome_fantasia = ?, funcao = ?, rg = ?, data_ingresso = ?, salario = ?, referencias = ? 
+                WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param(
             'sssssssi',
@@ -32,6 +39,11 @@ class ColaboradorModel {
             $dados['referencias'],
             $dados['id']
         );
-        return $stmt->execute();
+
+        if (!$stmt->execute()) {
+            die("Erro ao atualizar colaborador: " . $stmt->error);
+        }
+
+        return true;
     }
 }

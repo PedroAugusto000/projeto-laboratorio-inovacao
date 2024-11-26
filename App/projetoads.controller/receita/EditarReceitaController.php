@@ -1,5 +1,5 @@
 <?php
-require_once 'ReceitaModel.php';
+require_once '../../projetoads.model/receita/EditarReceitaModel.php';
 
 class ReceitaController {
     private $model;
@@ -21,35 +21,42 @@ class ReceitaController {
     }
 }
 
-// Instância do controller
+session_start();
 $controller = new ReceitaController();
 
-// Processa a lógica
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_GET['id'];
+    $id = $_GET['id'] ?? null;
+
+    if (!$id) {
+        die("ID da receita não fornecido.");
+    }
+
     $dados = [
         "nome" => $_POST["nome"],
         "categoria" => $_POST["categoria"],
-        "opiniao_degustador" => $_POST["opiniao_degustador"],
-        "ingredientes" => $_POST["ingredientes"],
-        "modo_preparo" => $_POST["modo_preparo"],
-        "descricao" => $_POST["descricao"],
-        "numero_porcoes" => $_POST["numero_porcoes"],
-        "nome_cozinheiro" => $_POST["nome_cozinheiro"],
-        "nome_degustador" => $_POST["nome_degustador"]
+        "opiniao_degustador" => $_POST["opiniao_degustador"] ?? null,
+        "ingredientes" => $_POST["ingredientes"] ?? null,
+        "modo_preparo" => $_POST["modo_preparo"] ?? null,
+        "descricao" => $_POST["descricao"] ?? null,
+        "numero_porcoes" => $_POST["numero_porcoes"] ?? null,
+        "nome_cozinheiro" => $_POST["nome_cozinheiro"] ?? null,
+        "nome_degustador" => $_POST["nome_degustador"] ?? null
     ];
+
     $imagemBlob = isset($_FILES["imagem_receita"]["tmp_name"]) && $_FILES["imagem_receita"]["error"] == 0
         ? file_get_contents($_FILES["imagem_receita"]["tmp_name"])
         : null;
 
     if ($controller->atualizarReceita($id, $dados, $imagemBlob)) {
-        echo "Receita atualizada com sucesso!";
+        $_SESSION['mensagem'] = "Receita atualizada com sucesso!";
     } else {
-        echo "Erro ao atualizar receita!";
+        $_SESSION['mensagem'] = "Erro ao atualizar receita.";
     }
+
+    header("Location: ../../projetoads.view/receitas/GerenciarReceitaView.php");
+    exit;
 }
 
-// Dados para exibição na View
 $id = $_GET['id'] ?? null;
 $receita = $controller->getReceita($id);
 $categorias = $controller->getCategorias();

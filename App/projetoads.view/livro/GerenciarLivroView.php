@@ -1,10 +1,15 @@
+<?php
+session_start();
+require_once '../../projetoads.controller/livro/GerenciarLivroController.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Livros</title>
-    <link rel="stylesheet" href="../css/stylesLivros.css">
+    <link rel="stylesheet" href="../../../public/css/stylesLivros.css">
 </head>
 <body>
 
@@ -13,24 +18,24 @@
         <a href="#">Logo</a>
     </div>
     <nav>
-        <a href="gerir_livros.php">Livros</a>
-        <a href="gerenciar_receitas.php">Receitas</a>
-        <a href="colaborador_funcionarios.php">Funcionários</a>
+        <a href="../livro/GerenciarLivroView.php">Livros</a>
+        <a href="../receitas/GerenciarReceitaView.php">Receitas</a>
+        <a href="../colaborador/GerenciarColaboradorView.php">Funcionários</a>
     </nav>
     <div class="user-area">
         <span>Usuário</span>
-        <a href="../index.php" class="logout">Sair</a>
+        <a href="../../home/index.php" class="logout">Sair</a>
     </div>
 </header>
 
 <main>
     <h1>Gerenciar Livros</h1>
     <div class="search-bar">
-        <form method="get" action="gerir_livros.php">
-            <input type="text" name="search" placeholder="Buscar livro..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+        <form method="get" action="GerenciarLivroView.php">
+            <input type="text" name="search" placeholder="Buscar livro..." value="<?php echo htmlspecialchars($searchTerm ?? ''); ?>">
         </form>
     </div>
-    <a href="registro_livro.php" class="register-btn" style="display: block; margin-top: 10px;">Registrar livro</a>
+    <a href="RegistroLivroView.php" class="register-btn" style="display: block; margin-top: 10px;">Registrar livro</a>
     <table>
         <thead>
             <tr>
@@ -41,17 +46,23 @@
             </tr>
         </thead>
         <tbody>
-            <?php while($row = $livros->fetch_assoc()): ?>
+            <?php if ($livros && $livros->num_rows > 0): ?>
+                <?php while ($row = $livros->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($row["id"]); ?></td>
+                        <td><?php echo htmlspecialchars($row["isbn"]); ?></td>
+                        <td><?php echo htmlspecialchars($row["titulo"]); ?></td>
+                        <td>
+                            <a href="EditarLivroView.php?id=<?php echo $row['id']; ?>">✏️</a>
+                            <a href="GerenciarLivroView.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Tem certeza que quer deletar esse livro?')">🗑️</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            <?php else: ?>
                 <tr>
-                    <td><?php echo $row["id"]; ?></td>
-                    <td><?php echo htmlspecialchars($row["isbn"]); ?></td>
-                    <td><?php echo htmlspecialchars($row["titulo"]); ?></td>
-                    <td>
-                        <a href="editar_livro.php?id=<?php echo $row['id']; ?>">✏️</a>
-                        <a href="gerir_livros.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Tem certeza que quer deletar esse livro?')">🗑️</a>
-                    </td>
+                    <td colspan="4">Nenhum livro encontrado.</td>
                 </tr>
-            <?php endwhile; ?>
+            <?php endif; ?>
         </tbody>
     </table>
 </main>

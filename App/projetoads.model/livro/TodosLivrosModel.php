@@ -11,6 +11,15 @@ class LivroModel {
 
     public function getTodosLivros() {
         $sql = "SELECT id, titulo, imagem FROM livros ORDER BY id DESC";
-        return $this->conn->query($sql);
+        $result = $this->conn->query($sql);
+        if (!$result) {
+            error_log("Erro ao buscar livros: " . $this->conn->error);
+            return null;
+        }
+        return $result;
+    }
+
+    public function getConnectionError() {
+        return $this->conn->error;
     }
 }

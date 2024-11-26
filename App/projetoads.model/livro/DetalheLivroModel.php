@@ -11,6 +11,10 @@ class LivroModel {
 
     public function getLivroById($id) {
         $stmt = $this->conn->prepare("SELECT titulo, isbn, descricao, imagem FROM livros WHERE id = ?");
+        if (!$stmt) {
+            error_log("Erro ao preparar consulta: " . $this->conn->error);
+            return null;
+        }
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -20,10 +24,13 @@ class LivroModel {
     }
 
     public function getReceitasByLivroId($id) {
-        $sql = "SELECT r.id, r.nome, r.ingredientes, r.modo_preparo FROM receitas r
-                JOIN livros_receitas lr ON r.id = lr.receita_id
-                WHERE lr.livro_id = ?";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare("SELECT r.id, r.nome, r.ingredientes, r.modo_preparo FROM receitas r
+                                      JOIN livros_receitas lr ON r.id = lr.receita_id
+                                      WHERE lr.livro_id = ?");
+        if (!$stmt) {
+            error_log("Erro ao preparar consulta: " . $this->conn->error);
+            return [];
+        }
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();

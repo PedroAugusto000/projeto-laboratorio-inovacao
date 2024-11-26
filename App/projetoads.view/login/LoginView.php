@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/stylesLogin.css">
+    <link rel="stylesheet" href="../../../public/css/stylesLogin.css">
 </head>
 <body>
     <div class="login-container">
         <h2 id="text-login">Login</h2>
         <div class="login">
-            <form action="../projetoads.controller/loginController.php" method="post">
+            <form action="../../projetoads.controller/login/LoginController.php" method="post">
                 <div>
                     <label for="usuario">Usuário:</label>
                     <input type="text" id="usuario" name="usuario" required>
@@ -27,7 +27,7 @@
                     <p class="error-message"><?php echo($erro); ?></p>
                 <?php endif; ?>
 
-                <a href="../index.php">Voltar</a>
+                <a href="../../home/index.php">Voltar</a>
             </form>
         </div>
     </div>

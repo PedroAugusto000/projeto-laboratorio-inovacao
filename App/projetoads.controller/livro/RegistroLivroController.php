@@ -1,5 +1,5 @@
 <?php
-require_once 'LivroModel.php';
+require_once '../../projetoads.model/livro/RegistroLivroModel.php';
 
 class LivroController {
     private $model;
@@ -13,7 +13,7 @@ class LivroController {
         if (!empty($receitasSelecionadas)) {
             $this->model->vincularReceitas($livroId, $receitasSelecionadas);
         }
-        header("Location: ../index.php");
+        header("Location: ../../home/index.php");
         exit();
     }
 
@@ -28,7 +28,7 @@ $controller = new LivroController();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = $_POST['titulo'];
     $isbn = !empty($_POST['isbn']) ? $_POST['isbn'] : null;
-    $descricao = $_POST['descricao'];
+    $descricao = $_POST['descricao'] ?? '';
     $receitasSelecionadas = $_POST['receitas'] ?? [];
     $imagemBlob = null;
 
@@ -43,5 +43,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $controller->registrarLivro($titulo, $isbn, $descricao, $imagemBlob, $receitasSelecionadas);
 }
 
-// Receitas pra exibir na View
+// Receitas para exibir na View
 $receitas = $controller->getReceitas();

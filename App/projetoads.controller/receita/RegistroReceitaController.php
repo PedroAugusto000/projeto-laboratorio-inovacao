@@ -1,5 +1,5 @@
 <?php
-require_once 'ReceitaModel.php';
+require_once '../../projetoads.model/receita/RegistroReceitaModel.php';
 
 class ReceitaController {
     private $model;
@@ -25,13 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dados = [
         "nome" => $_POST["nome"],
         "categoria" => $_POST["categoria"],
-        "opiniao_degustador" => $_POST["opiniao_degustador"],
-        "ingredientes" => $_POST["ingredientes"],
-        "modo_preparo" => $_POST["modo_preparo"],
-        "descricao" => $_POST["descricao"],
-        "numero_porcoes" => $_POST["numero_porcoes"],
-        "nome_cozinheiro" => $_POST["nome_cozinheiro"],
-        "nome_degustador" => $_POST["nome_degustador"]
+        "opiniao_degustador" => $_POST["opiniao_degustador"] ?? null,
+        "ingredientes" => $_POST["ingredientes"] ?? null,
+        "modo_preparo" => $_POST["modo_preparo"] ?? null,
+        "descricao" => $_POST["descricao"] ?? null,
+        "numero_porcoes" => $_POST["numero_porcoes"] ?? null,
+        "nome_cozinheiro" => $_POST["nome_cozinheiro"] ?? null,
+        "nome_degustador" => $_POST["nome_degustador"] ?? null
     ];
 
     $imagemBlob = isset($_FILES["imagem_receita"]["tmp_name"]) && $_FILES["imagem_receita"]["error"] == 0
@@ -39,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         : null;
 
     if ($controller->cadastrarReceita($dados, $imagemBlob)) {
-        echo "Receita cadastrada com sucesso!";
+        header("Location: ../../projetoads.view/receitas/GerenciarReceitaView.php?status=sucesso");
+        exit;
     } else {
         echo "Erro ao cadastrar receita!";
     }

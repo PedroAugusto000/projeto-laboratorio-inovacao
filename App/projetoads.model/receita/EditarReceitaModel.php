@@ -12,16 +12,28 @@ class ReceitaModel {
     public function getReceitaById($id) {
         $sql = "SELECT * FROM receitas WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            die("Erro ao preparar consulta: " . $this->conn->error);
+        }
+
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         $receita = $result->fetch_assoc();
         $stmt->close();
-        return $receita;
+
+        return $receita ?: null;
     }
 
     public function getCategorias() {
-        return $this->conn->query("SELECT id, nome_categoria FROM categorias");
+        $result = $this->conn->query("SELECT id, nome_categoria FROM categorias");
+
+        if (!$result) {
+            error_log("Erro ao buscar categorias: " . $this->conn->error);
+            die("Erro ao buscar categorias.");
+        }
+
+        return $result;
     }
 
     public function atualizarReceita($id, $dados, $imagemBlob = null) {
@@ -45,6 +57,13 @@ class ReceitaModel {
                 $dados['nome_degustador'], $id
             );
         }
-        return $stmt->execute();
+
+        $executado = $stmt->execute();
+        if (!$executado) {
+            error_log("Erro ao atualizar receita: " . $stmt->error);
+        }
+
+        $stmt->close();
+        return $executado;
     }
 }

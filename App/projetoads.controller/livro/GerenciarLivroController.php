@@ -1,5 +1,5 @@
 <?php
-require_once 'LivroModel.php';
+require_once '../../projetoads.model/livro/GerenciarLivroModel.php';
 
 class LivroController {
     private $model;
@@ -13,10 +13,12 @@ class LivroController {
     }
 
     public function excluirLivro($id) {
-        if ($id) {
+        if (is_numeric($id)) {
             $this->model->deletarLivro($id);
-            header("Location: gerir_livros.php");
+            header("Location: ../../projetoads.view/livro/GerenciarLivroView.php");
             exit;
+        } else {
+            die("ID inválido.");
         }
     }
 }
@@ -25,7 +27,7 @@ class LivroController {
 $controller = new LivroController();
 
 // Processa a exclusão
-if (isset($_GET["delete"])) {
+if (isset($_GET["delete"]) && is_numeric($_GET["delete"])) {
     $controller->excluirLivro($_GET["delete"]);
 }
 
