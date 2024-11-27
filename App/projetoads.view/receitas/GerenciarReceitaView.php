@@ -9,7 +9,7 @@ require_once '../../projetoads.controller/receita/GerenciarReceitaController.php
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Receitas</title>
-    <link rel="stylesheet" href="../../../public/css/stylesReceitas.css">
+    <link rel="stylesheet" href="../../../public/css/stylesGerenciar.css">
     <script>
         function filtrarReceitas() {
             let input = document.getElementById('buscar-receita').value.toLowerCase();
@@ -24,9 +24,34 @@ require_once '../../projetoads.controller/receita/GerenciarReceitaController.php
 </head>
 <body>
 
+<script>
+    function filtrarReceitas() {
+        let input = document.getElementById('buscar-receita').value.toLowerCase(); // Captura o texto de busca
+        let receitas = document.querySelectorAll('#receitas-lista tr'); // Seleciona todas as linhas da tabela
+
+        receitas.forEach((receita) => {
+            let colunas = receita.querySelectorAll('td'); // Todas as colunas da linha
+            let encontrou = false;
+
+            // Verifica cada coluna da linha
+            colunas.forEach((coluna) => {
+                if (coluna.innerText.toLowerCase().includes(input)) {
+                    encontrou = true; // Marca como encontrado se o texto de busca estiver presente
+                }
+            });
+
+            // Mostra ou oculta a linha com base no resultado da busca
+            receita.style.display = encontrou ? '' : 'none';
+        });
+    }
+
+    // Vincula a função ao evento 'keyup' do campo de busca
+    document.getElementById('buscar-receita').addEventListener('keyup', filtrarReceitas);
+</script>
+
 <header>
     <div class="logo-container">
-        <a href="#">Logo</a>
+        <a href="../../home/index.php">GERENCIAMENTO</a>
     </div>
     <nav>
         <a href="../livro/GerenciarLivroView.php">Livros</a>
@@ -65,8 +90,8 @@ require_once '../../projetoads.controller/receita/GerenciarReceitaController.php
                         <td><?php echo htmlspecialchars($row["nome"]); ?></td>
                         <td><?php echo htmlspecialchars($row["categoria"]); ?></td>
                         <td>
-                            <a href="EditarReceitaView.php?id=<?php echo $row['id']; ?>">✏️</a>
-                            <a href="GerenciarReceitaView.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Tem certeza que quer deletar essa receita?')">🗑️</a>
+                            <a href="EditarReceitaView.php?id=<?php echo $row['id']; ?>">&#x270E;</a>
+                            <a href="GerenciarReceitaView.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Tem certeza que quer deletar essa receita?')">&#x1F5D1;</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>

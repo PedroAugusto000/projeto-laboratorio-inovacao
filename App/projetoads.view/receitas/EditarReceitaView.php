@@ -8,13 +8,13 @@ require_once '../../projetoads.controller/receita/EditarReceitaController.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Receita</title>
-    <link rel="stylesheet" href="../../../public/css/stylesRegistroReceitas.css">
+    <link rel="stylesheet" href="../../../public/css/stylesRegistroEditar.css">
 </head>
 <body>
 
 <header>
     <nav>
-        <a href="#">Logo</a>
+        <a href="../../home/index.php">EDIÇÃO</a>
         <a href="../livro/GerenciarLivroView.php">Livros</a>
         <a href="../receitas/GerenciarReceitaView.php">Receitas</a>
         <a href="../colaborador/GerenciarColaboradorView.php">Funcionários</a>

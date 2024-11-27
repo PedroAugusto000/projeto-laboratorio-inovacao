@@ -100,7 +100,24 @@ a:hover {
 }
 
 .error-message {
-    color: red;
+    color: white;
+    background-color: #e74c3c;
+    border: 1px solid #c0392b;
+    border-radius: 5px;
+    padding: 10px;
     font-size: 0.9em;
-    margin-top: 10px;
+    text-align: center;
+    margin-top: 15px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

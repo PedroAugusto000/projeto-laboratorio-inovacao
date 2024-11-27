@@ -72,6 +72,16 @@ ALTER TABLE livros MODIFY isbn VARCHAR(13);
 INSERT INTO categorias (nome_categoria) VALUES ('Sobremesas'), ('Bebidas'), ('Saladas');
 ALTER TABLE livros ADD COLUMN descricao TEXT;
 
+ALTER TABLE Colaboradores ADD UNIQUE (rg);
+ALTER TABLE livros ADD UNIQUE (isbn);
+
+ALTER TABLE Login ADD COLUMN nivel_permissao ENUM('root', 'admin', 'usuario') DEFAULT 'usuario';
+
+UPDATE Login SET nivel_permissao = 'root' WHERE usuario = 'root';
+
+
+
+
 
 
 

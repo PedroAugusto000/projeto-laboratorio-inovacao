@@ -10,6 +10,16 @@ require_once '../../projetoads.controller/livro/DetalheLivroController.php';
     <title><?php echo htmlspecialchars($livro['titulo'] ?? 'Detalhes do Livro'); ?> - Detalhes do Livro</title>
     <link rel="stylesheet" href="../../home/styles.css">
     <style>
+        a {
+            color: #ff9900; /* Cor do link laranja */
+            text-decoration: none; /* Remove o sublinhado padrão */
+            transition: color 0.3s ease; /* Efeito de transição para a cor */
+        }
+
+        a:hover {
+            color: #e68a00; /* Cor do link quando passar o mouse (laranja mais escuro) */
+        }
+
         body {
             background-color: #f3f3f3;
             color: #232f3e;
@@ -79,6 +89,7 @@ require_once '../../projetoads.controller/livro/DetalheLivroController.php';
             max-width: 600px;
             width: 90%;
             text-align: center;
+            position: relative;
         }
         .close-modal {
             position: absolute;
@@ -90,18 +101,27 @@ require_once '../../projetoads.controller/livro/DetalheLivroController.php';
         }
         .nav-buttons {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
         .nav-button {
-            margin: 0 10px;
             padding: 10px 20px;
             background: #ff9900;
             border: none;
             border-radius: 5px;
             color: #fff;
             cursor: pointer;
+            transition: background 0.3s ease;
         }
+
+        .nav-button:hover {
+            background: #e68a00;
+        }
+
         .nav-button:disabled {
             background: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -146,6 +166,7 @@ require_once '../../projetoads.controller/livro/DetalheLivroController.php';
         <div class="nav-buttons">
             <button class="nav-button" id="prevButton" onclick="prevRecipe()">Anterior</button>
             <button class="nav-button" id="nextButton" onclick="nextRecipe()">Próxima</button>
+            <button class="nav-button" onclick="closeModal()">Voltar</button>
         </div>
     </div>
 </div>

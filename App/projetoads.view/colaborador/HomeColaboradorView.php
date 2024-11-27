@@ -8,11 +8,11 @@ require_once '../../projetoads.controller/colaborador/HomeColaboradorController.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aba do Colaborador</title>
-    <link rel="stylesheet" href="../../../public/css/stylesColaborador_inicial.css">
+    <link rel="stylesheet" href="../../../public/css/stylesGerenciar.css">
 </head>
 <body>
     <header>
-        <div class="logo">Logo</div>
+        <div class="logo">HOME</div>
         <nav>
             <a href="../livro/GerenciarLivroView.php">Livros</a>
             <a href="../receitas/GerenciarReceitaView.php">Receitas</a>

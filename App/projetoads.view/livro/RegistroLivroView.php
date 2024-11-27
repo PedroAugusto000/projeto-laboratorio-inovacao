@@ -8,13 +8,22 @@ require_once '../../projetoads.controller/livro/RegistroLivroController.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Livro</title>
-    <link rel="stylesheet" href="../../../public/css/stylesLivros.css">
+    <link rel="stylesheet" href="../../../public/css/stylesRegistroEditar.css">
+    <script>
+        function validarFormulario(event) {
+            const receitasSelecionadas = document.querySelectorAll('input[name="receitas[]"]:checked');
+            if (receitasSelecionadas.length < 2) {
+                alert("Você deve selecionar ao menos duas receitas.");
+                event.preventDefault(); // Impede o envio do formulário
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
-
 <header>
     <div class="logo-container">
-        <a href="#">Logo</a>
+        <a href="../../home/index.php">REGISTRO</a>
     </div>
     <nav>
         <a href="../livro/GerenciarLivroView.php">Livros</a>
@@ -29,9 +38,16 @@ require_once '../../projetoads.controller/livro/RegistroLivroController.php';
 
 <main>
     <h1>Registrar Novo Livro</h1>
+    <?php if (!empty($errorMessage)): ?>
+        <div class="error-message"><?php echo htmlspecialchars($errorMessage); ?></div>
+    <?php endif; ?>
+
+    <?php if (!empty($errorMessage)): ?>
+        <div class="error-message"><?php echo htmlspecialchars($errorMessage); ?></div>
+    <?php endif; ?>
 
     <div class="form-container">
-        <form action="../../projetoads.controller/livro/RegistroLivroController.php" method="post" enctype="multipart/form-data">
+        <form action="../../projetoads.controller/livro/RegistroLivroController.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario(event)">
             <div class="form-group">
                 <label for="titulo">Título do Livro:</label>
                 <input type="text" id="titulo" name="titulo" required>
@@ -39,17 +55,17 @@ require_once '../../projetoads.controller/livro/RegistroLivroController.php';
 
             <div class="form-group">
                 <label for="isbn">ISBN:</label>
-                <input type="text" id="isbn" name="isbn" pattern="\d{13}" title="ISBN deve ter 13 dígitos" placeholder="Somente números">
+                <input type="text" id="isbn" name="isbn" pattern="\d{13}" title="ISBN deve ter 13 dígitos" placeholder="Somente números" required>
             </div>
 
             <div class="form-group">
                 <label for="descricao">Descrição:</label>
-                <textarea id="descricao" name="descricao" rows="4" placeholder="Escreva uma descrição para o livro"></textarea>
+                <textarea id="descricao" name="descricao" rows="4" placeholder="Escreva uma descrição para o livro" required></textarea>
             </div>
 
             <div class="form-group">
                 <label for="imagem">Imagem do Livro:</label>
-                <input type="file" id="imagem" name="imagem" accept="image/*">
+                <input type="file" id="imagem" name="imagem" accept="image/*" required>
             </div>
 
             <h3>Vincular Receitas</h3>
@@ -61,12 +77,18 @@ require_once '../../projetoads.controller/livro/RegistroLivroController.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = $receitas->fetch_assoc()): ?>
+                    <?php if ($receitas && $receitas->num_rows > 0): ?>
+                        <?php while ($row = $receitas->fetch_assoc()): ?>
+                            <tr>
+                                <td><input type="checkbox" name="receitas[]" value="<?php echo htmlspecialchars($row['id']); ?>"></td>
+                                <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
                         <tr>
-                            <td><input type="checkbox" name="receitas[]" value="<?php echo htmlspecialchars($row['id']); ?>"></td>
-                            <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                            <td colspan="2">Nenhuma receita disponível para vincular.</td>
                         </tr>
-                    <?php endwhile; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
 
@@ -76,6 +98,5 @@ require_once '../../projetoads.controller/livro/RegistroLivroController.php';
         </form>
     </div>
 </main>
-
 </body>
 </html>

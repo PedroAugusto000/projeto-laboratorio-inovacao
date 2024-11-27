@@ -1,19 +1,23 @@
 <?php
-require_once '../../docs/db/db-conexao.php'; // Usando o arquivo de conexão centralizado
+require_once '../../docs/db/db-conexao.php';
+require_once '../projetoads.model/indexModel.php';
 
-// Query para buscar receitas
-$sql_receitas = "SELECT id, nome, imagem_receita FROM receitas ORDER BY id DESC LIMIT 3";
-$result_receitas = $conn->query($sql_receitas);
-if (!$result_receitas) {
-    die("Erro ao buscar receitas: " . $conn->error);
+$model = new IndexModel("localhost", "root", "", "AcervoReceitas");
+
+// Pega o termo de pesquisa da query string (se houver)
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Busca as receitas recomendadas ou filtra pelas receitas que combinam com o termo de pesquisa
+if ($searchTerm) {
+    $result_receitas = $model->searchReceitas($searchTerm);
+    $result_livros = $model->searchLivros($searchTerm);
+} else {
+    // Caso não haja pesquisa, carrega todas as recomendações
+    $result_receitas = $model->getReceitasRecomendadas();
+    $result_livros = $model->getLivrosRecomendados();
 }
 
-// Query para buscar livros
-$sql_livros = "SELECT id, titulo, imagem FROM livros ORDER BY id DESC LIMIT 3";
-$result_livros = $conn->query($sql_livros);
-if (!$result_livros) {
-    die("Erro ao buscar livros: " . $conn->error);
-}
+$categorias_receitas = $model->getCategoriasComReceitas();
 ?>
 
 <!DOCTYPE html>
@@ -22,46 +26,37 @@ if (!$result_livros) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial - Receitas e Livros</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Caminho ajustado -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <div class="logo">Logo</div>
-        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="logo">
+            <a href="index.php">
+                <img src="../../public/image/logo.png" alt="Logo Receitas e Livros">
+            </a>
+        </div>
         <nav>
             <a href="../projetoads.view/receitas/TodasReceitasView.php">Receitas</a>
             <a href="../projetoads.view/livro/TodosLivroView.php">Livros</a>
         </nav>
+        
+        <!-- Barra de pesquisa, sem botão -->
         <div class="search-bar">
-            <input type="text" placeholder="Pesquisar...">
+            <form action="index.php" method="GET">
+                <input type="text" name="search" placeholder="Pesquisar..." value="<?= htmlspecialchars($searchTerm); ?>" onkeydown="if(event.key === 'Enter') this.form.submit()">
+            </form>
         </div>
+
         <div class="user-area">
-            <a href="../projetoads.view/colaborador/HomeColaboradorView.php">Aba do colaborador</a>
-            <a href="../projetoads.view/login/LoginView.php">Login</a>
+            <a href="../projetoads.view/colaborador/HomeColaboradorView.php" class="btn">Aba do colaborador</a>
+            <a href="../projetoads.view/login/LoginView.php" class="btn">Login</a>
         </div>
     </header>
 
-    <div class="menu" id="side-menu">
-        <ul>
-            <li><a href="index.php">Página Inicial</a></li>
-            <li class="toggle" onclick="toggleSubmenu('submenu-tipos')">Tipos de pratos</li>
-            <ul id="submenu-tipos" class="submenu">
-                <?php
-                $tipos = ['Tortas', 'Bolos', 'Doces e sobremesas', 'Carnes', 'Massas', 'Saladas', 'Peixes e Frutos do mar'];
-                foreach ($tipos as $tipo) {
-                    echo "<li><a href='#'>" . htmlspecialchars($tipo) . "</a></li>";
-                }
-                ?>
-            </ul>
-            <li><a href="index.php">Voltar</a></li>
-        </ul>
-    </div>
-
     <main class="content">
+        <!-- Seção de Receitas -->
         <section>
-            <h1>Recomendações</h1>
-            
-            <div class="section-title">Recomendação de receitas</div>
+            <h2 class="section-title">Recomendação de receitas</h2>
             <div class="recommendations">
                 <?php while ($row = $result_receitas->fetch_assoc()): ?>
                     <div class="item">
@@ -71,19 +66,19 @@ if (!$result_livros) {
                             </a>
                         </h3>
                         <?php if (!empty($row['imagem_receita'])): ?>
-                            <img src="data:image/jpeg;base64,<?= base64_encode($row['imagem_receita']); ?>" 
-                                 alt="<?= htmlspecialchars($row['nome']); ?>" />
+                            <img src="data:image/jpeg;base64,<?= base64_encode($row['imagem_receita']); ?>" alt="<?= htmlspecialchars($row['nome']); ?>" />
                         <?php else: ?>
                             <div class="no-image">Sem imagem</div>
                         <?php endif; ?>
                     </div>
                 <?php endwhile; ?>
             </div>
-            <a href="../projetoads.view/receitas/TodasReceitasView.php" class="see-more">Ver mais receitas</a>
+            <a href="../projetoads.view/receitas/TodasReceitasView.php" class="btn">Ver mais receitas</a>
         </section>
 
+        <!-- Seção de Livros -->
         <section>
-            <div class="section-title">Recomendação de livros</div>
+            <h2 class="section-title">Recomendação de livros</h2>
             <div class="recommendations">
                 <?php while ($livro = $result_livros->fetch_assoc()): ?>
                     <div class="item">
@@ -93,18 +88,48 @@ if (!$result_livros) {
                             </a>
                         </h3>
                         <?php if (!empty($livro['imagem'])): ?>
-                            <img src="data:image/jpeg;base64,<?= base64_encode($livro['imagem']); ?>" 
-                                 alt="<?= htmlspecialchars($livro['titulo']); ?>" />
+                            <img src="data:image/jpeg;base64,<?= base64_encode($livro['imagem']); ?>" alt="<?= htmlspecialchars($livro['titulo']); ?>" />
                         <?php else: ?>
                             <div class="no-image">Sem imagem</div>
                         <?php endif; ?>
                     </div>
                 <?php endwhile; ?>
             </div>
-            <a href="../projetoads.view/livro/TodosLivroView.php" class="see-more">Ver mais livros</a>
+            <a href="../projetoads.view/livro/TodosLivroView.php" class="btn">Ver mais livros</a>
+        </section>
+
+        <!-- Seção de Categorias -->
+        <section>
+        <br> <br>    
+        <center>
+            <h2 class="section-category">Categorias</h2>
+            </center>
+            <div class="categories">
+                <?php foreach ($categorias_receitas as $categoria => $receitas): ?>
+                    <div class="category">
+                        <h3><?= htmlspecialchars($categoria); ?></h3>
+                        <div class="recommendations">
+                            <?php foreach ($receitas as $receita): ?>
+                                <div class="item">
+                                    <h3>
+                                        <a href="../projetoads.view/receitas/DetalheReceitaView.php?id=<?= $receita['id']; ?>">
+                                            <?= htmlspecialchars($receita['nome']); ?>
+                                        </a>
+                                    </h3>
+                                    <?php if (!empty($receita['imagem_receita'])): ?>
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($receita['imagem_receita']); ?>" alt="<?= htmlspecialchars($receita['nome']); ?>" />
+                                    <?php else: ?>
+                                        <div class="no-image">Sem imagem</div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </section>
     </main>
 
-    <script src="../public/scripts/scripts.js"></script> <!-- Caminho ajustado -->
+    <script src="scripts.js"></script>
 </body>
 </html>

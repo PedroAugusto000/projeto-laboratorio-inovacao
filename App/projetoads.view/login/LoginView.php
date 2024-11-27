@@ -1,3 +1,6 @@
+<?php
+session_start(); // Sessão iniciada para acessar $_SESSION['erro']
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -23,8 +26,10 @@
 
                 <button type="submit" id="button-login">Logar</button>
 
-                <?php if (!empty($erro)): ?>
-                    <p class="error-message"><?php echo($erro); ?></p>
+                <!-- Exibição da mensagem de erro -->
+                <?php if (!empty($_SESSION['erro'])): ?>
+                    <p class="error-message"><?php echo htmlspecialchars($_SESSION['erro']); ?></p>
+                    <?php unset($_SESSION['erro']); // Remove o erro após exibir ?>
                 <?php endif; ?>
 
                 <a href="../../home/index.php">Voltar</a>

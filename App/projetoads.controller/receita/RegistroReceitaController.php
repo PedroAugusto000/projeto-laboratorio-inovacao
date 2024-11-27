@@ -22,21 +22,36 @@ $controller = new ReceitaController();
 
 // Lógica de cadastro
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validar que todos os campos obrigatórios estão preenchidos
+    if (
+        empty($_POST["nome"]) || empty($_POST["categoria"]) || empty($_POST["ingredientes"]) || 
+        empty($_POST["modo_preparo"]) || empty($_POST["descricao"]) || 
+        empty($_POST["numero_porcoes"]) || empty($_POST["nome_cozinheiro"]) || 
+        empty($_POST["nome_degustador"]) || !isset($_FILES["imagem_receita"])
+    ) {
+        echo "Erro: Todos os campos são obrigatórios!";
+        exit;
+    }
+
+    // Validar que o número de porções é numérico
+    if (!is_numeric($_POST["numero_porcoes"])) {
+        echo "Erro: O campo Número de Porções deve conter apenas números!";
+        exit;
+    }
+
     $dados = [
         "nome" => $_POST["nome"],
         "categoria" => $_POST["categoria"],
-        "opiniao_degustador" => $_POST["opiniao_degustador"] ?? null,
-        "ingredientes" => $_POST["ingredientes"] ?? null,
-        "modo_preparo" => $_POST["modo_preparo"] ?? null,
-        "descricao" => $_POST["descricao"] ?? null,
-        "numero_porcoes" => $_POST["numero_porcoes"] ?? null,
-        "nome_cozinheiro" => $_POST["nome_cozinheiro"] ?? null,
-        "nome_degustador" => $_POST["nome_degustador"] ?? null
+        "opiniao_degustador" => $_POST["opiniao_degustador"],
+        "ingredientes" => $_POST["ingredientes"],
+        "modo_preparo" => $_POST["modo_preparo"],
+        "descricao" => $_POST["descricao"],
+        "numero_porcoes" => $_POST["numero_porcoes"],
+        "nome_cozinheiro" => $_POST["nome_cozinheiro"],
+        "nome_degustador" => $_POST["nome_degustador"]
     ];
 
-    $imagemBlob = isset($_FILES["imagem_receita"]["tmp_name"]) && $_FILES["imagem_receita"]["error"] == 0
-        ? file_get_contents($_FILES["imagem_receita"]["tmp_name"])
-        : null;
+    $imagemBlob = file_get_contents($_FILES["imagem_receita"]["tmp_name"]);
 
     if ($controller->cadastrarReceita($dados, $imagemBlob)) {
         header("Location: ../../projetoads.view/receitas/GerenciarReceitaView.php?status=sucesso");
@@ -45,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erro ao cadastrar receita!";
     }
 }
+
 
 // Categorias para a View
 $categorias = $controller->getCategorias();

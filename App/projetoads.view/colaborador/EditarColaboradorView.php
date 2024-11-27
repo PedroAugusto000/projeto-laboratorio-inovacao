@@ -7,11 +7,27 @@ require '../../projetoads.controller/colaborador/EditarColaboradorController.php
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Colaborador</title>   
-    <link rel="stylesheet" href="../../../public/css/stylesRegistro_colaborador.css">
+    <link rel="stylesheet" href="../../../public/css/stylesRegistroEditar.css">
+    <script>
+        function formatRG(input) {
+            let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            value = value.replace(/(\d{1})(\d{3})(\d{3})/, '$1.$2.$3'); // Formata como 0.000.000
+            input.value = value;
+        }
+
+        function formatSalary(input) {
+            let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            value = (value / 100).toFixed(2).replace('.', ','); // Ajusta o número para duas casas decimais
+            value = "R$ " + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona separador de milhares
+            input.value = value;
+        }
+    </script>
 </head>
 <body>
     <header>
-        <div class="logo">Logo</div>
+        <div class="logo-container">
+            <a href="../../home/index.php">EDIÇÃO</a>
+        </div>
         <nav>
             <a href="../livro/GerenciarLivroView.php">Livros</a>
             <a href="../receitas/GerenciarReceitaView.php">Receitas</a>
@@ -39,11 +55,17 @@ require '../../projetoads.controller/colaborador/EditarColaboradorController.php
             </div>
             <div>
                 <label for="funcao">Função</label>
-                <input type="text" id="funcao" name="funcao" value="<?php echo htmlspecialchars($colaborador['funcao']); ?>" required>
+                <select id="funcao" name="funcao" required>
+                    <option value="">Selecione a função</option>
+                    <option value="Desenvolvedor" <?php echo $colaborador['funcao'] === 'Desenvolvedor' ? 'selected' : ''; ?>>Desenvolvedor</option>
+                    <option value="Cozinheiro" <?php echo $colaborador['funcao'] === 'Cozinheiro' ? 'selected' : ''; ?>>Cozinheiro</option>
+                    <option value="Degustador" <?php echo $colaborador['funcao'] === 'Degustador' ? 'selected' : ''; ?>>Degustador</option>
+                    <option value="Editor" <?php echo $colaborador['funcao'] === 'Editor' ? 'selected' : ''; ?>>Editor</option>
+                </select>
             </div>
             <div>
                 <label for="rg">RG</label>
-                <input type="text" id="rg" name="rg" value="<?php echo htmlspecialchars($colaborador['rg']); ?>" required>
+                <input type="text" id="rg" name="rg" value="<?php echo htmlspecialchars($colaborador['rg']); ?>" oninput="formatRG(this)" required>
             </div>
             <div>
                 <label for="data_ingresso">Data de ingresso</label>
@@ -51,7 +73,7 @@ require '../../projetoads.controller/colaborador/EditarColaboradorController.php
             </div>
             <div>
                 <label for="salario">Salário</label>
-                <input type="text" id="salario" name="salario" value="<?php echo htmlspecialchars($colaborador['salario']); ?>" required>
+                <input type="text" id="salario" name="salario" value="<?php echo 'R$ ' . number_format($colaborador['salario'], 2, ',', '.'); ?>" oninput="formatSalary(this)" required>
             </div>
             <div>
                 <label for="referencias">Referências (Opcional)</label>

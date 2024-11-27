@@ -9,12 +9,24 @@ class LivroController {
     }
 
     public function registrarLivro($titulo, $isbn, $descricao, $imagemBlob, $receitasSelecionadas) {
-        $livroId = $this->model->cadastrarLivro($titulo, $isbn, $descricao, $imagemBlob);
-        if (!empty($receitasSelecionadas)) {
-            $this->model->vincularReceitas($livroId, $receitasSelecionadas);
+        if (empty($titulo) || empty($isbn) || empty($descricao) || empty($imagemBlob)) {
+            throw new Exception("Todos os campos são obrigatórios.");
         }
-        header("Location: ../../home/index.php");
-        exit();
+
+        if (count($receitasSelecionadas) < 2) {
+            throw new Exception("Você deve selecionar ao menos duas receitas para criar um livro de receitas.");
+        }
+
+        try {
+            $livroId = $this->model->cadastrarLivro($titulo, $isbn, $descricao, $imagemBlob);
+            if (!empty($receitasSelecionadas)) {
+                $this->model->vincularReceitas($livroId, $receitasSelecionadas);
+            }
+            header("Location: ../../home/index.php");
+            exit();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function getReceitas() {
@@ -22,26 +34,24 @@ class LivroController {
     }
 }
 
-// Instância do controller
-$controller = new LivroController();
+try {
+    $controller = new LivroController();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $titulo = $_POST['titulo'];
-    $isbn = !empty($_POST['isbn']) ? $_POST['isbn'] : null;
-    $descricao = $_POST['descricao'] ?? '';
-    $receitasSelecionadas = $_POST['receitas'] ?? [];
-    $imagemBlob = null;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $titulo = $_POST['titulo'];
+        $isbn = $_POST['isbn'];
+        $descricao = $_POST['descricao'];
+        $receitasSelecionadas = $_POST['receitas'] ?? [];
+        $imagemBlob = null;
 
-    if ($isbn && !preg_match("/^\d{13}$/", $isbn)) {
-        die("ISBN inválido. Deve ter 13 dígitos.");
+        if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == UPLOAD_ERR_OK) {
+            $imagemBlob = file_get_contents($_FILES['imagem']['tmp_name']);
+        }
+
+        $controller->registrarLivro($titulo, $isbn, $descricao, $imagemBlob, $receitasSelecionadas);
     }
 
-    if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == UPLOAD_ERR_OK) {
-        $imagemBlob = file_get_contents($_FILES['imagem']['tmp_name']);
-    }
-
-    $controller->registrarLivro($titulo, $isbn, $descricao, $imagemBlob, $receitasSelecionadas);
+    $receitas = $controller->getReceitas();
+} catch (Exception $e) {
+    $errorMessage = $e->getMessage();
 }
-
-// Receitas para exibir na View
-$receitas = $controller->getReceitas();

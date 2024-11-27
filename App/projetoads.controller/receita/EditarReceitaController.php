@@ -47,6 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ? file_get_contents($_FILES["imagem_receita"]["tmp_name"])
         : null;
 
+    if (!is_numeric($_POST["numero_porcoes"])) {
+        echo "Erro: O campo Número de Porções deve conter apenas números!";
+        exit;
+    }
+
     if ($controller->atualizarReceita($id, $dados, $imagemBlob)) {
         $_SESSION['mensagem'] = "Receita atualizada com sucesso!";
     } else {

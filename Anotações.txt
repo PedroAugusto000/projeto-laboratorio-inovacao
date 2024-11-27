@@ -62,39 +62,33 @@ Index.php ->
 
 
 ===O QUE FALTA?===
--Organizar MVC de todos os códigos
--Mostar mensagem de erro quando login/senha forem inválidos
--Inserir a logo nas páginas + a href pro index
--Funcionalidade pra realmente o usuário deslogar
--Aperfeiçoar todas as pesquisa para ler as outras colunas (Nome, id, RG, Data de Ingresso)
--Inserir um filtro p/ fazer sentido
--Registro colaborador -> Inserir uma lista de funções invés de escrever
--RG: Arrumar p/ que enquanto o usuário digitar já inserir no formato do RG (x.xxx.xxx) 
--Salário: Arrumar p/ que enquanto o usuário digitar já inserir no formato do salário em dinheiro
--Fazer o mesmo do registro colaborador no editar colaborador 
--Quando exclui, aparece um prompt pergutando se realmente deseja excluir. Arrumar o texto dele e colocar essa funcionalidade em todos.
--Registrar ainda mais categorias de receitas
--Registrar para que possa inserir mais de uma categoria na hora de registrar uma receita
--Funcionalidade para expandir a tela na hora que você escrever um texto muito grande na hora de registrar uma receita ou Livro
--Aperfeiçoar a pesquisa da aba de gerir_livros.php
--Na área de registrar livros poderia ter um filtro
--Mudar alguns redirecionamentos na hora de registrar/editar/excluir receitas/livros
--Fazer a funcionalide de mover as recomendações do site no index.php
--Achar um formato legal de como as receitas/livros vão aparecer no index.php
--No index.php gostaria que tivesse uma aba abaixo mostrando que seria "Categorias" e mostraria as receitas de cada categoria (Com limite é claro)
--Livros devem ter categoria (Churrasco, bolos, generalizado)
--Inserir tempo de preparo estimado nas receitas
--Será que deveria ter um botão de lançar livro/receita?
--Alinhar o estilo de algumas barras de navegações
--Arrumar alguns <a href=""></a> do projeto (Revisar todos)
--Onde mostra o ISBN deveria mostrar naquele formato dele
--Onde está visualziar receitas devo tentar inserir a imagem do livro em algum canto (Mas se não der tudo bem)
--Pensar em como deve ser feito o cadastro dos usuários do sistema (Por hora está sendo manualmente no banco de dados)
+#FEITO# - Organizar MVC de todos os códigos
+#FEITO# - Mostar mensagem de erro quando login/senha forem inválidos
+#FEITO# - Aperfeiçoar todas as pesquisa para ler as outras colunas (Nome, id, RG, Data de Ingresso)
+#FEITO# - Registro colaborador -> Inserir uma lista de funções invés de escrever
+#FEITO# - Registrar ainda mais categorias de receitas
+#FEITO# - Funcionalidade para expandir a tela na hora que você escrever um texto muito grande na hora de registrar uma receita ou livro
+#FEITO# - Aperfeiçoar a pesquisa da aba de gerir_livros.php
+#FEITO# - Mudar alguns redirecionamentos na hora de registrar/editar/excluir receitas/livros
+#FEITO# - No index.php gostaria que tivesse uma aba abaixo mostrando que seria "Categorias" e mostraria as receitas de cada categoria (Com limite é claro)
+#FEITO# - Inserir a logo nas páginas + a href pro index
+#FEITO# - Alinhar o estilo de algumas barras de navegações
+#FEITO# - Achar um formato legal de como as receitas/livros vão aparecer no index.php
+#FEITO# - RG: Arrumar p/ que enquanto o usuário digitar já inserir no formato do RG (x.xxx.xxx) 
+#FEITO# - Salário: Arrumar p/ que enquanto o usuário digitar já inserir no formato do salário em dinheiro
+#FEITO# - Fazer o mesmo do registro colaborador no editar colaborador
 
-===REGRAS===
-1. Não pode cadastrar um livro sem ao menos registrar duas receitas
-2. Formato padrão para receitas e livros a ser divulgado
-3. Nem todo usuário deve conseguir acessar a aba do colaborador (Deve nem aparecer na verdade)
+
+Funcionalidade de pesquisar na home do projeto
+Descrições e opiniões devem ser em itálico
+Links de receitas do livro seria legal colocar uma corzinha laranja
+
+
+
+
+
+
+
 
 
 

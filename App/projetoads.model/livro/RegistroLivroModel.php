@@ -20,7 +20,10 @@ class LivroModel {
             $stmt->send_long_data(3, $imagemBlob);
         }
         if (!$stmt->execute()) {
-            error_log("Erro ao cadastrar livro: " . $stmt->error);
+            if ($this->conn->errno == 1062) { // Código de erro para chave duplicada
+                throw new Exception("O ISBN já está registrado no sistema.");
+            }
+            throw new Exception("Erro ao cadastrar livro: " . $stmt->error);
         }
 
         $livroId = $stmt->insert_id;
@@ -46,7 +49,8 @@ class LivroModel {
     public function listarReceitas() {
         $result = $this->conn->query("SELECT id, nome FROM receitas");
         if (!$result) {
-            die("Erro ao buscar receitas: " . $this->conn->error);
+            error_log("Erro ao buscar receitas: " . $this->conn->error);
+            return null;
         }
         return $result;
     }

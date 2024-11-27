@@ -12,8 +12,11 @@ require_once '../../projetoads.controller/livro/TodosLivrosController.php';
 </head>
 <body>
     <header>
-        <div class="logo">Logo</div>
-        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="logo">
+            <a href="../../home/index.php">
+                <img src="../../../public/image/logo.png" alt="Logo Receitas e Livros" style="width: 60px; height: auto;">
+            </a>
+        </div>
         <nav>
             <a href="../receitas/TodasReceitasView.php">Receitas</a>
             <a href="../livro/TodosLivroView.php">Livros</a>

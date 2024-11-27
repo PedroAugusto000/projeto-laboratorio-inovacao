@@ -29,9 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'funcao' => $_POST['funcao'],
         'rg' => $_POST['rg'],
         'data_ingresso' => $_POST['data_ingresso'],
-        'salario' => str_replace(['R$', ',', '.'], ['', '.', ''], $_POST['salario']),
-        'referencias' => $_POST['referencias'] ?? null
+        
+        // Tratamento de salário
+        'salario' => $_POST['salario'],
     ];
+
+    // Remover R$, vírgulas e outros caracteres não numéricos
+    $salario = $dados['salario'];
+    $salario = preg_replace('/[^0-9]/', '', $salario); // Remove tudo que não for número
+    $dados['salario'] = $salario / 100; // Divide por 100 para corrigir os centavos
+    
+    $dados['referencias'] = $_POST['referencias'] ?? null;
 
     if ($controller->atualizarColaborador($dados)) {
         $_SESSION['mensagem'] = "Colaborador atualizado com sucesso!";
