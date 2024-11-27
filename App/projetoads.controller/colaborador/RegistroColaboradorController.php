@@ -26,7 +26,7 @@ class ColaboradorController {
 
     public function registrarColaborador($dados) {
         return $this->model->registrarColaborador($dados);
-    }
+    }   
 }
 
 $controller = new ColaboradorController();

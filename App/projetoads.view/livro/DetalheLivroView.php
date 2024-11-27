@@ -123,6 +123,44 @@ require_once '../../projetoads.controller/livro/DetalheLivroController.php';
             background: #ccc;
             cursor: not-allowed;
         }
+
+        .description {
+            font-style: italic;
+        }
+
+        .visualizar-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #ff9900, #e68a00);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .visualizar-btn:hover {
+            background: linear-gradient(135deg, #e68a00, #ff9900);
+            transform: translateY(-3px); /* Levanta o botão ao passar o mouse */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .visualizar-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .visualizar-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
     </style>
 </head>
 <body>

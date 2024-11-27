@@ -103,7 +103,7 @@ h1 {
     <div class="review">
         <?php echo nl2br(htmlspecialchars($receita['opiniao_degustador'] ?? 'Opinião não disponível.')); ?>
     </div>
-    <div class="reviewer">Por <?php echo htmlspecialchars($receita['nome_degustador'] ?? 'Desconhecido'); ?></div>
+    <div class="reviewer">Por, <?php echo htmlspecialchars($receita['nome_degustador'] ?? 'Desconhecido'); ?></div>
 </div>
 
 </body>

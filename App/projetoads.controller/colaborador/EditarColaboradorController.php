@@ -29,18 +29,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'funcao' => $_POST['funcao'],
         'rg' => $_POST['rg'],
         'data_ingresso' => $_POST['data_ingresso'],
-        
-        // Tratamento de salário
         'salario' => $_POST['salario'],
+        'referencias' => $_POST['referencias'] ?? null,
     ];
 
-    // Remover R$, vírgulas e outros caracteres não numéricos
+    // Remover R$, vírgulas e outros caracteres não numéricos no salário
     $salario = $dados['salario'];
     $salario = preg_replace('/[^0-9]/', '', $salario); // Remove tudo que não for número
     $dados['salario'] = $salario / 100; // Divide por 100 para corrigir os centavos
-    
-    $dados['referencias'] = $_POST['referencias'] ?? null;
 
+    // Verifica se a senha foi alterada
+    if (!empty($_POST['senha'])) {
+        $dados['senha'] = md5($_POST['senha']); // Encripta a senha com MD5
+    }
+
+    // Atualiza os dados do colaborador
     if ($controller->atualizarColaborador($dados)) {
         $_SESSION['mensagem'] = "Colaborador atualizado com sucesso!";
     } else {

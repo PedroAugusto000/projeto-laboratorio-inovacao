@@ -1,28 +1,59 @@
 CREATE DATABASE AcervoReceitas;
+USE AcervoReceitas;
 
-use acervoreceitas;
-
-CREATE TABLE Login (
+CREATE TABLE IF NOT EXISTS Login (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL,
-    senha VARCHAR(255) NOT NULL
+    senha VARCHAR(255) NOT NULL,  
+    nivel_permissao ENUM('root', 'admin', 'usuario') DEFAULT 'usuario'
 );
 
-CREATE TABLE Colaboradores (
+INSERT INTO Login (usuario, senha, nivel_permissao) 
+VALUES 
+    ('root', MD5('senac'), 'root');
+
+CREATE TABLE IF NOT EXISTS Colaboradores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     nome_fantasia VARCHAR(100),
     funcao VARCHAR(50) NOT NULL,
-    rg VARCHAR(15) NOT NULL,
+    rg VARCHAR(15) NOT NULL UNIQUE,
     data_ingresso DATE NOT NULL,
     salario DECIMAL(10, 2) NOT NULL,
     referencias TEXT
 );
 
-CREATE TABLE receitas (
+CREATE TABLE IF NOT EXISTS categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_categoria VARCHAR(50) NOT NULL
+);
+
+INSERT INTO categorias (nome_categoria) 
+VALUES 
+    ('Massa'), 
+    ('Frios'), 
+    ('Almoço'), 
+    ('Lanches'), 
+    ('Sobremesas'), 
+    ('Bebidas'), 
+    ('Saladas');
+    
+INSERT INTO categorias (nome_categoria)
+VALUE ('Bolos');
+
+CREATE TABLE IF NOT EXISTS Livros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    codigo_unico VARCHAR(200),
+    isbn VARCHAR(13) UNIQUE NOT NULL, 
+    titulo VARCHAR(200),
+    descricao TEXT,
+    imagem BLOB
+);
+
+CREATE TABLE IF NOT EXISTS receitas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    codigo_unico VARCHAR(20),
+    codigo_unico VARCHAR(255),
     categoria VARCHAR(100),
     opiniao_degustador TEXT,
     ingredientes TEXT,
@@ -34,55 +65,22 @@ CREATE TABLE receitas (
     imagem_receita BLOB
 );
 
-CREATE TABLE categorias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome_categoria VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE Livros (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    codigo_unico VARCHAR(200),
-    isbn INT UNIQUE NOT NULL,
-    titulo VARCHAR(200),
-    imagem BLOB
-);
-
-INSERT INTO categorias (nome_categoria) VALUES
-('Massa'),
-('Frios'),
-('Almoço'),
-('Lanches');
-
-CREATE TABLE livros_receitas (
+CREATE TABLE IF NOT EXISTS livros_receitas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     livro_id INT NOT NULL,
     receita_id INT NOT NULL,
-    FOREIGN KEY (livro_id) REFERENCES livros(id) ON DELETE CASCADE,
+    FOREIGN KEY (livro_id) REFERENCES Livros(id) ON DELETE CASCADE,
     FOREIGN KEY (receita_id) REFERENCES receitas(id) ON DELETE CASCADE
 );
 
-INSERT INTO Login (usuario, senha) VALUES ('root', MD5('senac'));
+ALTER TABLE receitas 
+    DROP COLUMN codigo_unico,
+    ADD COLUMN codigo_unico VARCHAR(255);
 
-INSERT INTO Login (usuario, senha) VALUES ('Pedro', MD5('123'));
-
-ALTER TABLE receitas DROP COLUMN codigo_unico;
-ALTER TABLE receitas DROP INDEX codigo_unico;
-ALTER TABLE receitas ADD COLUMN codigo_unico VARCHAR(255);
-ALTER TABLE livros MODIFY isbn VARCHAR(13);
-INSERT INTO categorias (nome_categoria) VALUES ('Sobremesas'), ('Bebidas'), ('Saladas');
-ALTER TABLE livros ADD COLUMN descricao TEXT;
+ALTER TABLE Livros 
+    MODIFY isbn VARCHAR(13);
 
 ALTER TABLE Colaboradores ADD UNIQUE (rg);
-ALTER TABLE livros ADD UNIQUE (isbn);
-
-ALTER TABLE Login ADD COLUMN nivel_permissao ENUM('root', 'admin', 'usuario') DEFAULT 'usuario';
+ALTER TABLE Livros ADD UNIQUE (isbn);
 
 UPDATE Login SET nivel_permissao = 'root' WHERE usuario = 'root';
-
-
-
-
-
-
-
-

@@ -83,6 +83,10 @@ Funcionalidade de pesquisar na home do projeto
 Descrições e opiniões devem ser em itálico
 Links de receitas do livro seria legal colocar uma corzinha laranja
 
+======PROJETO-PÓS-VERSÃO-FINAL======
+#FEITO# - DetalheLivro -> Descrição em itálico e estilizar botão de visualizar receitas
+#FEITO# - Ajustar a área de Cozinheiro e Degustado de RegistroReceita (Limitar para apenar funcionários serem selecionados)
+-Resolver o bug do salário aumentando ao editar
 
 
 

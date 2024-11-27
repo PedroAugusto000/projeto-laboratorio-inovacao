@@ -65,3 +65,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $id = $_GET['id'] ?? null;
 $receita = $controller->getReceita($id);
 $categorias = $controller->getCategorias();
+?>

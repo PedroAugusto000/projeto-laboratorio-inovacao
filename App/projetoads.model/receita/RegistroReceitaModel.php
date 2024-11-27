@@ -20,6 +20,20 @@ class ReceitaModel {
         return $result;
     }
 
+    // Método para buscar colaboradores por função
+    public function getColaboradoresPorFuncao($funcao) {
+        $sql = "SELECT nome FROM colaboradores WHERE funcao = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $funcao);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $colaboradores = [];
+        while ($row = $result->fetch_assoc()) {
+            $colaboradores[] = $row['nome'];
+        }
+        return $colaboradores;
+    }
+
     public function cadastrarReceita($dados, $imagemBlob) {
         $sql = "INSERT INTO receitas 
                 (nome, categoria, opiniao_degustador, ingredientes, modo_preparo, descricao, numero_porcoes, nome_cozinheiro, nome_degustador, imagem_receita) 
@@ -51,3 +65,5 @@ class ReceitaModel {
         return $executado;
     }
 }
+
+

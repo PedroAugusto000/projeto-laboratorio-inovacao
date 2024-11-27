@@ -15,14 +15,25 @@ class ReceitaController {
     public function cadastrarReceita($dados, $imagemBlob) {
         return $this->model->cadastrarReceita($dados, $imagemBlob);
     }
+
+    public function getColaboradoresPorFuncao($funcao) {
+        // Agora, chamamos o método no modelo para buscar os colaboradores
+        return $this->model->getColaboradoresPorFuncao($funcao);
+    }
 }
 
 // Instância do controller
 $controller = new ReceitaController();
 
+// Categorias para a View
+$categorias = $controller->getCategorias();
+
+// Coletando os colaboradores de cozinheiro e degustador
+$cozinheiros = $controller->getColaboradoresPorFuncao('Cozinheiro');
+$degustadores = $controller->getColaboradoresPorFuncao('Degustador');
+
 // Lógica de cadastro
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validar que todos os campos obrigatórios estão preenchidos
     if (
         empty($_POST["nome"]) || empty($_POST["categoria"]) || empty($_POST["ingredientes"]) || 
         empty($_POST["modo_preparo"]) || empty($_POST["descricao"]) || 
@@ -60,7 +71,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erro ao cadastrar receita!";
     }
 }
-
-
-// Categorias para a View
-$categorias = $controller->getCategorias();
